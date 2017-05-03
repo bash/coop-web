@@ -3,13 +3,13 @@ import { fetchLocation, fetchLocationMenus } from '../api'
 
 const Menu = ({ menu }) => {
   return (
-    <article class="menu-item">
+    <section class="menu-item">
       <h2>{menu.title}</h2>
       <h3>CHF {menu.price}</h3>
       <ul class="dishes">
         {menu.menu.map((dish) => <li>{dish}</li>)}
       </ul>
-    </article>
+    </section>
   )
 }
 
@@ -31,12 +31,12 @@ export class Location extends Component {
 
   render ({ location: _location }, { location, menus }) {
     return (
-      <section>
+      <article>
         <h1>{location.name}</h1>
         <div class="menu-items">
           { menus.map((menu) => <Menu menu={ menu }/>)}
         </div>
-      </section>
+      </article>
     )
   }
 

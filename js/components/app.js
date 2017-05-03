@@ -9,15 +9,6 @@ export class App extends Component {
     this.setState({ location })
   }
 
-  componentWillMount() {
-    navigator.geolocation.getCurrentPosition(({ coords }) => {
-      fetchLocationsByPosition(coords.latitude, coords.longitude)
-        .then((locations) => {
-          this.setState({ location: locations[0].id })
-        })
-    })
-  }
-
   render ({}, { location }) {
     return (
       <div class="page-content">

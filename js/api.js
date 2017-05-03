@@ -34,6 +34,9 @@ export function fetchLocationMenus (location) {
 export function fetchLocations () {
   return fetch(`${API_BASE}/locations`)
     .then((resp) => resp.json())
+    .then(({ results }) => {
+      return results.sort((a, b) => a.name.localeCompare(b.name))
+    })
 }
 
 /**
