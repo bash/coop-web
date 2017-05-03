@@ -699,12 +699,22 @@ function fetchLocationMenus(location) {
 }
 
 function fetchLocations() {
-  return fetch(`${API_BASE}/locations`).then(resp => resp.json());
+  return fetch(`${API_BASE}/locations`).then(resp => resp.json()).then(({ results }) => {
+    return results.sort((a, b) => a.name.localeCompare(b.name));
+  });
 }
 
 function fetchLocationsByPosition(latitude, longitude) {
   return fetch(`${API_BASE}/locations?latitude=${encode(latitude)}&longitude=${encode(longitude)}`).then(resp => resp.json()).then(({ results }) => results);
 }
+
+const formatDistance = distance => {
+  if (distance < 1000) {
+    return `${Math.round(distance)}m`;
+  }
+
+  return `${Math.round(distance / 10) / 100}km`;
+};
 
 class Locations extends Component {
   constructor() {
@@ -721,21 +731,43 @@ class Locations extends Component {
     this._onInput = event => {
       const search = event.target.value.toLowerCase();
 
-      const filteredLocations = this.state.locations.map(location => ({ location, match: location.name.toLowerCase().indexOf(search) })).filter(({ match }) => match > -1).sort((a, b) => a.match > b.match).map(({ location }) => location);
-
-      this.setState({ filteredLocations });
+      this.setState({ search: search });
     };
 
     this.state.locations = [];
     this.state.filteredLocations = [];
     this.state.search = null;
+    this.state.loadedByPosition = false;
+  }
+
+  _getFilteredLocations() {
+    if (!this.state.search) {
+      return this.state.locations;
+    }
+
+    const search = this.state.search.toLowerCase();
+
+    return this.state.locations.map(location => ({ location, match: location.name.toLowerCase().indexOf(search) })).filter(({ match }) => match > -1).sort((a, b) => a.match > b.match).map(({ location }) => location);
   }
 
   componentDidMount() {
-    return fetchLocations().then(({ results }) => this.setState({ locations: results, filteredLocations: results }));
+    fetchLocations().then(locations => {
+      if (!this.state.loadedByPosition) {
+        this.setState({ locations });
+      }
+    });
+
+    navigator.geolocation.getCurrentPosition(({ coords }) => {
+      fetchLocationsByPosition(coords.latitude, coords.longitude).then(locations => {
+        this.setState({ locations, loadedByPosition: true });
+        this.props.onChange(locations[0].id);
+      });
+    });
   }
 
-  render({ onSelectLocation }, { filteredLocations }) {
+  render({ onSelectLocation }, {}) {
+    const locations = this._getFilteredLocations();
+
     return h(
       'div',
       null,
@@ -743,13 +775,18 @@ class Locations extends Component {
       h(
         'ul',
         { 'class': 'locations-list' },
-        filteredLocations.map(location => h(
+        locations.map(location => h(
           'li',
           { 'class': 'location' },
           h(
             'a',
             { href: '#', onClick: this._onChange(location.id) },
-            location.name
+            location.name,
+            h(
+              'span',
+              { 'class': 'distance' },
+              location.distance ? `${formatDistance(location.distance)} away` : ''
+            )
           )
         ))
       )
@@ -759,7 +796,7 @@ class Locations extends Component {
 
 const Menu = ({ menu }) => {
   return h(
-    'article',
+    'section',
     { 'class': 'menu-item' },
     h(
       'h2',
@@ -802,7 +839,7 @@ class Location extends Component {
 
   render({ location: _location }, { location, menus }) {
     return h(
-      'section',
+      'article',
       null,
       h(
         'h1',
@@ -833,14 +870,6 @@ class App extends Component {
     }, _temp;
   }
 
-  componentWillMount() {
-    navigator.geolocation.getCurrentPosition(({ coords }) => {
-      fetchLocationsByPosition(coords.latitude, coords.longitude).then(locations => {
-        this.setState({ location: locations[0].id });
-      });
-    });
-  }
-
   render({}, { location }) {
     return h(
       'div',
@@ -866,3 +895,4 @@ class App extends Component {
 render(h(App, null), document.body);
 
 }());
+//# sourceMappingURL=app.js.map

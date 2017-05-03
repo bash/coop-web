@@ -1,3 +1,254 @@
+@charset "UTF-8";
 /*!
  * (c) 2017 Ruben Schmidmeister
- */:root{--content-width:960px;--box-border-radius:4px}html{-webkit-text-size-adjust:100%}[hidden]{display:none!important}fieldset,img{min-width:0}input::-webkit-datetime-edit-fields-wrapper{padding:0}input::-webkit-datetime-edit-ampm-field,input::-webkit-datetime-edit-day-field,input::-webkit-datetime-edit-hour-field,input::-webkit-datetime-edit-millisecond-field,input::-webkit-datetime-edit-minute-field,input::-webkit-datetime-edit-month-field,input::-webkit-datetime-edit-second-field,input::-webkit-datetime-edit-week-field,input::-webkit-datetime-edit-year-field{padding-top:0;padding-bottom:0}input[type=date]::-webkit-inner-spin-button,input[type=datetime-local]::-webkit-inner-spin-button,input[type=datetime]::-webkit-inner-spin-button,input[type=month]::-webkit-inner-spin-button,input[type=time]::-webkit-inner-spin-button,input[type=week]::-webkit-inner-spin-button{height:100%}input[type=search]::-webkit-search-cancel-button{display:none}:-moz-ui-invalid:not(output){box-shadow:none}button::-moz-focus-inner{border:0}:after,:before,a,abbr,address,area,article,aside,audio,b,bdi,bdo,blockquote,body,br,button,canvas,caption,cite,code,col,colgroup,datalist,dd,del,details,dfn,div,dl,dt,em,embed,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,header,hr,html,i,iframe,img,input,ins,kbd,keygen,label,legend,li,map,mark,menu,meter,nav,object,ol,optgroup,option,output,p,param,pre,progress,q,rp,rt,ruby,s,samp,section,select,small,source,span,strong,sub,summary,sup,table,tbody,td,textarea,tfoot,th,thead,time,tr,track,u,ul,var,video,wbr{box-sizing:inherit;margin:0;padding:0;font:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;background:none;border:none}html{box-sizing:border-box}ol,ul{list-style-type:none}a{text-decoration:none}:-moz-focusring{outline:none}:focus{outline:none}body{background-color:#f2f2f2}img{max-width:100%}body{font-family:Source Code Pro,monospace;font-size:18px}h1{font-weight:700;font-size:32px;margin-bottom:12px}h2{font-size:20px;margin-bottom:6px}h3{font-weight:700;margin-bottom:12px;color:#d3227b}.app-layout{display:-ms-grid;display:grid;-ms-grid-columns:300px auto;grid-template-columns:300px auto;grid-column-gap:20px}.app-layout>.nav{margin-top:58px}.app-layout>.nav>.search{margin-bottom:10px}.page-content{width:100%;max-width:var(--content-width);margin:auto;padding:20px}.locations-list{display:-ms-grid;display:grid;grid-row-gap:10px}.locations-list>.location>a{display:block;background-color:#fff;padding:10px 20px;border-radius:var(--box-border-radius)}.locations-search{background-color:#fff;width:100%;border:1px solid #bfbfbf;margin-bottom:10px;border-radius:var(--box-border-radius);padding:8px 20px}.menu-item{background-color:#fff;padding:20px}.menu-items{display:-ms-grid;display:grid;-ms-grid-columns:(1fr)[2];grid-template-columns:repeat(2,1fr);grid-gap:20px}
+ */
+:root {
+  --content-width: 960px;
+  --box-border-radius: 4px;
+}
+html {
+  -webkit-text-size-adjust: 100%;
+}
+[hidden] {
+  display: none !important;
+}
+fieldset,
+img {
+  min-width: 0;
+}
+input::-webkit-datetime-edit-fields-wrapper {
+  padding: 0;
+}
+input::-webkit-datetime-edit-ampm-field,
+input::-webkit-datetime-edit-day-field,
+input::-webkit-datetime-edit-hour-field,
+input::-webkit-datetime-edit-millisecond-field,
+input::-webkit-datetime-edit-minute-field,
+input::-webkit-datetime-edit-month-field,
+input::-webkit-datetime-edit-second-field,
+input::-webkit-datetime-edit-week-field,
+input::-webkit-datetime-edit-year-field {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+input[type="date"]::-webkit-inner-spin-button,
+input[type="datetime"]::-webkit-inner-spin-button,
+input[type="datetime-local"]::-webkit-inner-spin-button,
+input[type="month"]::-webkit-inner-spin-button,
+input[type="time"]::-webkit-inner-spin-button,
+input[type="week"]::-webkit-inner-spin-button {
+  height: 100%;
+}
+input[type="search"]::-webkit-search-cancel-button {
+  display: none;
+}
+:-moz-ui-invalid:not(output) {
+  box-shadow: none;
+}
+button::-moz-focus-inner {
+  border: 0;
+}
+a,
+abbr,
+address,
+area,
+article,
+aside,
+audio,
+b,
+bdi,
+bdo,
+blockquote,
+body,
+br,
+button,
+canvas,
+caption,
+cite,
+code,
+col,
+colgroup,
+datalist,
+dd,
+del,
+details,
+dfn,
+div,
+dl,
+dt,
+em,
+embed,
+fieldset,
+figcaption,
+figure,
+footer,
+form,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+header,
+hr,
+html,
+i,
+iframe,
+img,
+input,
+ins,
+kbd,
+keygen,
+label,
+legend,
+li,
+map,
+mark,
+menu,
+meter,
+nav,
+object,
+ol,
+optgroup,
+option,
+output,
+p,
+param,
+pre,
+progress,
+q,
+rp,
+rt,
+ruby,
+s,
+samp,
+section,
+select,
+small,
+source,
+span,
+strong,
+sub,
+summary,
+sup,
+table,
+tbody,
+td,
+textarea,
+tfoot,
+th,
+thead,
+time,
+tr,
+track,
+u,
+ul,
+var,
+video,
+wbr,
+::before,
+::after {
+  box-sizing: inherit;
+  margin: 0;
+  padding: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+}
+html {
+  box-sizing: border-box;
+}
+ul,
+ol {
+  list-style-type: none;
+}
+a {
+  text-decoration: none;
+}
+:-moz-focusring {
+  outline: none;
+}
+:focus {
+  outline: none;
+}
+body {
+  background-color: #F2F2F2;
+}
+img {
+  max-width: 100%;
+}
+body {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 18px;
+}
+h1 {
+  font-weight: bold;
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+h2 {
+  font-size: 20px;
+  margin-bottom: 6px;
+}
+h3 {
+  font-weight: bold;
+  margin-bottom: 12px;
+  color: #d3227b;
+}
+.app-layout {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 300px auto;
+      grid-template-columns: 300px auto;
+  grid-column-gap: 20px;
+}
+.app-layout > .nav {
+  margin-top: 58px;
+}
+.app-layout > .nav > .search {
+  margin-bottom: 10px;
+}
+.page-content {
+  width: 100%;
+  max-width: var(--content-width);
+  margin: auto;
+  padding: 20px;
+}
+.locations-list {
+  display: -ms-grid;
+  display: grid;
+  grid-row-gap: 10px;
+}
+.locations-list > .location > a {
+  display: block;
+  background-color: #fff;
+  padding: 10px 20px;
+  border-radius: var(--box-border-radius);
+}
+.locations-list > .location > a > .distance {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 14px;
+  display: block;
+}
+.locations-search {
+  background-color: #fff;
+  width: 100%;
+  border: 1px solid #BFBFBF;
+  margin-bottom: 10px;
+  border-radius: var(--box-border-radius);
+  padding: 8px 20px;
+}
+.menu-item {
+  background-color: #fff;
+  padding: 20px;
+}
+.menu-items {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (1fr)[2];
+      grid-template-columns: repeat(2, 1fr);
+  grid-gap: 20px;
+}
