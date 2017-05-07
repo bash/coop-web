@@ -690,12 +690,10 @@ const API_BASE = 'https://themachine.jeremystucki.com/coop/api/v2';
 
 const encode = encodeURIComponent;
 
-function fetchLocation(location) {
-  return fetch(`${API_BASE}/locations/${encode(location)}`).then(resp => resp.json());
-}
+
 
 function fetchLocationMenus(location) {
-  return fetch(`${API_BASE}/locations/${encode(location)}/menus/today`).then(resp => resp.json());
+  return fetch(`${API_BASE}/locations/${encode(location)}/menus`).then(resp => resp.json()).then(resp => resp.results);
 }
 
 function fetchLocations() {
@@ -760,7 +758,7 @@ class Locations extends Component {
     navigator.geolocation.getCurrentPosition(({ coords }) => {
       fetchLocationsByPosition(coords.latitude, coords.longitude).then(locations => {
         this.setState({ locations, loadedByPosition: true });
-        this.props.onChange(locations[0].id);
+        this.props.onChange(locations[0]);
       });
     });
   }
@@ -780,7 +778,7 @@ class Locations extends Component {
           { 'class': 'location' },
           h(
             'a',
-            { href: '#', onClick: this._onChange(location.id) },
+            { href: '#', onClick: this._onChange(location) },
             location.name,
             h(
               'span',
@@ -793,6 +791,29 @@ class Locations extends Component {
     );
   }
 }
+
+const weekday = timestamp => {
+  const format = new Intl.DateTimeFormat(navigator.languages, { weekday: 'long' });
+  const date = new Date(timestamp * 1000);
+
+  return format.format(date);
+};
+
+const groupByDay = menus => {
+  const byDay = new Map();
+
+  menus.sort((a, b) => a.timestamp > b.timestamp).forEach(menu => {
+    const timestamp = menu.timestamp;
+
+    if (byDay.has(timestamp)) {
+      byDay.get(timestamp).push(menu);
+    } else {
+      byDay.set(timestamp, [menu]);
+    }
+  });
+
+  return byDay;
+};
 
 const Menu = ({ menu }) => {
   return h(
@@ -821,12 +842,26 @@ const Menu = ({ menu }) => {
   );
 };
 
+const Day = ({ day, onSelect, active }) => {
+  return h(
+    'li',
+    { 'class': `item${active ? ' -active' : ''}`, onClick: onSelect(day) },
+    weekday(day)
+  );
+};
+
 class Location extends Component {
   constructor() {
     super();
 
-    this.state.location = {};
-    this.state.menus = [];
+    this._onDaySelect = day => {
+      return () => {
+        this.setState({ day });
+      };
+    };
+
+    this.state.menusByDay = new Map();
+    this.state.day = null;
   }
 
   componentWillMount() {
@@ -837,7 +872,10 @@ class Location extends Component {
     this._fetchData(nextProps);
   }
 
-  render({ location: _location }, { location, menus }) {
+  render({ location }, { menusByDay, day }) {
+    const menus = menusByDay.get(day) || [];
+    const days = Array.from(menusByDay.keys());
+
     return h(
       'article',
       null,
@@ -845,6 +883,11 @@ class Location extends Component {
         'h1',
         null,
         location.name
+      ),
+      h(
+        'ul',
+        { 'class': 'weekday-list' },
+        days.map($ => h(Day, { day: $, active: $ === day, onSelect: this._onDaySelect }))
       ),
       h(
         'div',
@@ -855,9 +898,12 @@ class Location extends Component {
   }
 
   _fetchData({ location }) {
-    let requests = Promise.all([fetchLocation(location), fetchLocationMenus(location)]);
+    fetchLocationMenus(location.id).then(menus => {
+      const menusByDay = groupByDay(menus);
+      const day = menusByDay.keys().next().value;
 
-    return requests.then(([location, menus]) => this.setState({ location: location, menus: menus.results }));
+      this.setState({ menusByDay, day });
+    });
   }
 }
 
@@ -895,4 +941,3 @@ class App extends Component {
 render(h(App, null), document.body);
 
 }());
-//# sourceMappingURL=app.js.map
