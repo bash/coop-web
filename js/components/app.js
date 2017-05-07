@@ -1,8 +1,6 @@
 import { h, Component } from 'preact'
 import { Locations } from './locations'
 import { Location } from './location'
-import { fetchLocationsByPosition } from '../api'
-
 
 export class App extends Component {
   _onLocationChange = (location) => {

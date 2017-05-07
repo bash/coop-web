@@ -23,8 +23,9 @@ export function fetchLocation (location) {
  * @returns {Promise}
  */
 export function fetchLocationMenus (location) {
-  return fetch(`${API_BASE}/locations/${encode(location)}/menus/today`)
+  return fetch(`${API_BASE}/locations/${encode(location)}/menus`)
     .then((resp) => resp.json())
+    .then((resp) => resp.results)
 }
 
 /**

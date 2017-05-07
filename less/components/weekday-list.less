@@ -1,0 +1,18 @@
+.weekday-list {
+  display: flex;
+  cursor: pointer;
+  margin-bottom: 20px;
+
+  > .item {
+    font-weight: bold;
+    transition: color .125s;
+  }
+
+  > .item.-active {
+    color: var(--brand-color);
+  }
+
+  > .item:not(:last-child) {
+    margin-right: 25px;
+  }
+}

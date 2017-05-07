@@ -59,7 +59,7 @@ export class Locations extends Component {
       fetchLocationsByPosition(coords.latitude, coords.longitude)
         .then((locations) => {
           this.setState({ locations, loadedByPosition: true })
-          this.props.onChange(locations[0].id)
+          this.props.onChange(locations[0])
         })
     })
   }
@@ -73,7 +73,7 @@ export class Locations extends Component {
         <ul class="locations-list">
           { locations.map((location) => (
             <li class="location">
-              <a href="#" onClick={this._onChange(location.id)}>
+              <a href="#" onClick={this._onChange(location)}>
                 {location.name}
                 <span class="distance">
                   {location.distance ? `${formatDistance(location.distance)} away` : ''}
