@@ -1,7 +1,7 @@
 import { h, Component } from 'preact'
 import { formatDistance } from '../utils'
 
-const MAX_LOCATIONS = 8
+const maxLocations = () => window.innerWidth < 796 ? 3 : 8
 
 const Distance = ({ distance }) => {
   return (
@@ -32,19 +32,39 @@ const Location = ({ location, onSelect }) => {
   )
 }
 
-export const Locations = ({ onSelectLocation, locations }) => {
-  const locationsCount = locations.length
+export class Locations extends Component {
+  constructor () {
+    super()
 
-  return (
-    <div>
-      <ul class="locations-list">
-        { locations
-          .slice(0, MAX_LOCATIONS)
-          .map((location) => <Location location={location} onSelect={onSelectLocation}/>) }
-      </ul>
-      <footer class="locations-hidden">
-        { locationsCount > MAX_LOCATIONS ? `${locationsCount - MAX_LOCATIONS} locations hidden` : '' }
-      </footer>
-    </div>
-  )
+    this.state.maxLocations = maxLocations()
+  }
+
+  _updateMaxLocations = () => {
+    this.setState({ maxLocations: maxLocations() })
+  }
+
+  componentDidMount () {
+    window.addEventListener('resize', this._updateMaxLocations)
+  }
+
+  componentWillUnmount () {
+    window.removeEventListener('resize', this._updateMaxLocations)
+  }
+
+  render ({ onSelectLocation, locations }, { maxLocations }) {
+    const locationsCount = locations.length
+
+    return (
+      <div>
+        <ul class="locations-list">
+          { locations
+            .slice(0, maxLocations)
+            .map((location) => <Location location={location} onSelect={onSelectLocation}/>) }
+        </ul>
+        <footer class="locations-hidden">
+          { locationsCount > maxLocations ? `${locationsCount - maxLocations} locations hidden` : '' }
+        </footer>
+      </div>
+    )
+  }
 }
