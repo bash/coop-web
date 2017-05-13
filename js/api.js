@@ -11,28 +11,34 @@ const encode = encodeURIComponent
  * @param {string} location
  * @returns {Promise}
  */
-export function fetchLocation (location) {
-  return fetch(`${API_BASE}/locations/${encode(location)}`)
-    .then((resp) => resp.json())
-}
-
-
-/**
- *
- * @param {string} location
- * @returns {Promise}
- */
-export function fetchLocationMenus (location) {
+export function fetchMenusFromApi (location) {
   return fetch(`${API_BASE}/locations/${encode(location)}/menus`)
     .then((resp) => resp.json())
-    .then((resp) => resp.results)
+    .then(({ results }) => {
+      // TODO: we need a cleaner way to group by day
+      const byDay = new Map()
+
+      results
+        .sort((a, b) => a.timestamp > b.timestamp)
+        .forEach((menu) => {
+          const timestamp = menu.timestamp
+
+          if (byDay.has(timestamp)) {
+            byDay.get(timestamp).push(menu)
+          } else {
+            byDay.set(timestamp, [menu])
+          }
+        })
+
+      return Array.from(byDay).map(([timestamp, menus]) => ({ timestamp, menus }))
+    })
 }
 
 /**
  *
  * @returns {Promise}
  */
-export function fetchLocations () {
+export function fetchLocationsFromApi () {
   return fetch(`${API_BASE}/locations`)
     .then((resp) => resp.json())
     .then(({ results }) => {
@@ -46,7 +52,7 @@ export function fetchLocations () {
  * @param {number} longitude
  * @returns {Promise<Array<{}>>}
  */
-export function fetchLocationsByPosition (latitude, longitude) {
+export function fetchLocationsByPositionFromApi (latitude, longitude) {
   return fetch(`${API_BASE}/locations?latitude=${encode(latitude)}&longitude=${encode(longitude)}`)
     .then((resp) => resp.json())
     .then(({ results }) => results)

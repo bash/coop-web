@@ -11,7 +11,7 @@ ROLLUP := rollup -c .rollup.config.js
 
 .PHONY: all clean lint deps
 
-all: build/css/app.css build/js/app.js build/js/polyfills.js
+all: build/css/app.css build/js/bundle.js build/js/polyfills.js
 
 clean:
 	rm -rf build/
@@ -32,7 +32,7 @@ else
 	lessc less/app.less | postcss -u autoprefixer -o $@
 endif
 
-build/js/app.js: $(JS_FILES)
+build/js/bundle.js: $(JS_FILES)
 	@mkdir -p $(@D)
 	$(ROLLUP) -o $@ js/app.js
 

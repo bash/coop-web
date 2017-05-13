@@ -1,4 +1,9 @@
 import { h, render } from 'preact'
-import { App } from './components/app'
+import { ConnectedApp } from './components/app'
 
-render(<App />, document.body);
+import { store } from './store'
+import { fetchLocations } from './actions'
+
+store.dispatch(fetchLocations())
+
+render(<ConnectedApp store={store}/>, document.body)

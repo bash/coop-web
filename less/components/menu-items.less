@@ -1,5 +1,10 @@
 .menu-items {
+  --menu-items-column-count: 2;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(var(--menu-items-column-count), 1fr);
   grid-gap: 20px;
+
+  @media (max-width: @small-screen-max) {
+    --menu-items-column-count: 1;
+  }
 }

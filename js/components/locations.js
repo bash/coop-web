@@ -1,87 +1,69 @@
 import { h, Component } from 'preact'
-import { fetchLocations, fetchLocationsByPosition } from '../api'
+import { formatDistance } from '../utils'
 
-const formatDistance = (distance) => {
-  if (distance < 1000) {
-    return `${Math.round(distance)}m`
+const maxLocations = () => window.innerWidth < 796 ? 3 : 8
+
+const Distance = ({ distance }) => {
+  return (
+    <span class="distance">
+      { `${formatDistance(distance)} away` }
+    </span>
+  )
+}
+
+const Location = ({ location, onSelect }) => {
+  const onClick = () => {
+    onSelect(location.id)
   }
 
-  return `${Math.round(distance / 10) / 100}km`
+  const onKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      onSelect(location.id)
+    }
+  }
+
+  return (
+    <li class="location">
+      <a onClick={onClick} onKeyPress={onKeyPress} tabIndex="0">
+        { location.name }
+        { location.distance && <Distance distance={location.distance}/> }
+      </a>
+    </li>
+  )
 }
 
 export class Locations extends Component {
   constructor () {
     super()
 
-    this.state.locations = []
-    this.state.filteredLocations = []
-    this.state.search = null
-    this.state.loadedByPosition = false
+    this.state.maxLocations = maxLocations()
   }
 
-  _onChange = (location) => {
-    return (event) => {
-      event.preventDefault()
-
-      this.props.onChange(location)
-    }
-  }
-
-  _onInput = (event) => {
-    const search = event.target.value.toLowerCase()
-
-    this.setState({ search: search })
-  }
-
-  _getFilteredLocations () {
-    if (!this.state.search) {
-      return this.state.locations
-    }
-
-    const search = this.state.search.toLowerCase()
-
-    return this.state.locations
-      .map((location) => ({ location, match: location.name.toLowerCase().indexOf(search) }))
-      .filter(({ match }) => match > -1)
-      .sort((a, b) => a.match > b.match)
-      .map(({ location }) => location)
+  _updateMaxLocations = () => {
+    this.setState({ maxLocations: maxLocations() })
   }
 
   componentDidMount () {
-    fetchLocations()
-      .then((locations) => {
-        if (!this.state.loadedByPosition) {
-          this.setState({ locations })
-        }
-      })
-
-    navigator.geolocation.getCurrentPosition(({ coords }) => {
-      fetchLocationsByPosition(coords.latitude, coords.longitude)
-        .then((locations) => {
-          this.setState({ locations, loadedByPosition: true })
-          this.props.onChange(locations[0])
-        })
-    })
+    window.addEventListener('resize', this._updateMaxLocations)
   }
 
-  render ({ onSelectLocation }, {}) {
-    const locations = this._getFilteredLocations()
+  componentWillUnmount () {
+    window.removeEventListener('resize', this._updateMaxLocations)
+  }
+
+  render ({ onSelectLocation, locations }, { maxLocations }) {
+    const locationsCount = locations.length
 
     return (
       <div>
-        <input type="search" placeholder="Search" onInput={this._onInput} class="locations-search"/>
         <ul class="locations-list">
-          { locations.map((location) => (
-            <li class="location">
-              <a href="#" onClick={this._onChange(location)}>
-                {location.name}
-                <span class="distance">
-                  {location.distance ? `${formatDistance(location.distance)} away` : ''}
-                </span>
-              </a>
-            </li>
-          )) }
+          { locations
+            .slice(0, maxLocations)
+            .map((location) => <Location location={location} onSelect={onSelectLocation}/>) }
         </ul>
+        <footer class="locations-hidden">
+          { locationsCount > maxLocations ? `${locationsCount - maxLocations} locations hidden` : '' }
+        </footer>
       </div>
     )
   }
