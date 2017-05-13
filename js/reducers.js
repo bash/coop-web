@@ -1,15 +1,15 @@
-import { SELECT_LOCATION, SET_LOCATIONS, SEARCH, RECEIVE_MENUS } from './actions'
+import { SELECT_LOCATION, SET_LOCATIONS, SEARCH, RECEIVE_MENUS, SELECT_DAY } from './actions'
 
 const initialState = {
   locations: [],
   location: null,
   menus: [],
   search: '',
-  weekday: 0,
+  day: 0,
 }
 
-export function reduce (state = initialState, action) {
-  switch (action.type) {
+export function reduce (state = initialState, { type, ...action }) {
+  switch (type) {
     case SELECT_LOCATION:
       return { ...state, location: action.location }
     case RECEIVE_MENUS:
@@ -18,6 +18,8 @@ export function reduce (state = initialState, action) {
       return { ...state, locations: action.locations }
     case SEARCH:
       return { ...state, search: action.search }
+    case SELECT_DAY:
+      return { ...state, day: action.day }
   }
 
   return state

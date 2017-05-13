@@ -1,8 +1,9 @@
-import { fetchMenusFromApi } from './api'
+import { fetchLocationsFromApi, fetchMenusFromApi } from './api'
+
 export const SET_LOCATIONS = 'SET_LOCATIONS'
 export const SELECT_LOCATION = 'SELECT_LOCATION'
 export const RECEIVE_MENUS = 'RECEIVE_MENUS'
-export const SELECT_WEEKDAY = 'SELECT_WEEKDAY'
+export const SELECT_DAY = 'SELECT_DAY'
 export const SEARCH = 'SEARCH'
 
 export const setLocations = (locations) => {
@@ -17,6 +18,14 @@ export const receiveMenus = (menus) => {
   return { type: RECEIVE_MENUS, menus }
 }
 
+export const selectDay = (day) => {
+  return { type: SELECT_DAY, day }
+}
+
+export const search = (search) => {
+  return { type: SEARCH, search }
+}
+
 export const fetchMenus = (location) => {
   return (dispatch) => {
     return fetchMenusFromApi(location)
@@ -24,10 +33,9 @@ export const fetchMenus = (location) => {
   }
 }
 
-export const selectWeekday = (weekday) => {
-  return { type: SELECT_WEEKDAY, weekday }
-}
-
-export const search = (search) => {
-  return { type: SEARCH, search }
+export const fetchLocations = () => {
+  return (dispatch) => {
+    return fetchLocationsFromApi()
+      .then((locations) => dispatch(setLocations(locations)))
+  }
 }

@@ -30,7 +30,7 @@ export function fetchMenusFromApi (location) {
           }
         })
 
-      return Array.from(byDay).map(([day, menus]) => ({ day, menus }))
+      return Array.from(byDay).map(([timestamp, menus]) => ({ timestamp, menus }))
     })
 }
 
@@ -38,7 +38,7 @@ export function fetchMenusFromApi (location) {
  *
  * @returns {Promise}
  */
-export function fetchLocations () {
+export function fetchLocationsFromApi () {
   return fetch(`${API_BASE}/locations`)
     .then((resp) => resp.json())
     .then(({ results }) => {

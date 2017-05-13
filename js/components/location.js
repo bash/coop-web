@@ -1,4 +1,4 @@
-import { h, Component } from 'preact'
+import { h } from 'preact'
 import { weekday } from '../utils'
 
 const Menu = ({ menu }) => {
@@ -13,20 +13,20 @@ const Menu = ({ menu }) => {
   )
 }
 
-const Day = ({ day, onClick, active }) => {
+const Day = ({ day, timestamp, onClick, active }) => {
   return (
     <li class={`item${active ? ' -active' : ''}`} onClick={() => onClick(day)}>
-      {weekday(day)}
+      {weekday(timestamp)}
     </li>
   )
 }
 
-export const Location = ({ location, menus = [], weekday, weekdays = [], onSelectWeekday }) => {
+export const Location = ({ location, menus, days, onSelectDay }) => {
   return (
     <article>
       <h1>{location.name}</h1>
       <ul class="weekday-list">
-        { weekdays.map(($) => <Day day={$} active={$ === weekday} onClick={onSelectWeekday}/>) }
+        { days.map((day) => <Day onClick={onSelectDay} {...day} />) }
       </ul>
       <div class="menu-items">
         { menus.map((menu) => <Menu menu={ menu }/>)}

@@ -7,7 +7,7 @@ const { connect } = preactRedux
 import { Locations } from './locations'
 import { Location } from './location'
 import { Search } from './search'
-import { fetchMenus, search, selectLocation } from '../actions'
+import { fetchMenus, search, selectLocation, selectDay } from '../actions'
 import { filterLocations } from '../utils'
 
 const mapDispatchToProps = (dispatch) => {
@@ -16,19 +16,47 @@ const mapDispatchToProps = (dispatch) => {
     onSelectLocation: (id) => {
       dispatch(selectLocation(id))
       dispatch(fetchMenus(id))
+    },
+    onSelectDay: (day) => {
+      dispatch(selectDay(day))
     }
   }
 }
 
-const mapStateToProps = ({ locations, location, menus, weekday, search }) => {
+const findLocation = (locations, location) => {
+  return locations.find(($) => $.id === location)
+}
+
+const filterMenus = (menus, day) => {
+  const dayMenus = menus[day]
+
+  if (dayMenus == null) {
+    return []
+  }
+
+  return dayMenus.menus
+}
+
+const days = (menus, day) => {
+  if (menus == null) {
+    return []
+  }
+
+  return menus.map(({ timestamp }, i) => {
+    return { day: i, timestamp, active: (i === day) }
+  })
+}
+
+const mapStateToProps = ({ locations, location, menus, day, search }) => {
   return {
     locations: filterLocations(locations, search),
-    location: locations.find(($) => $.id === location),
-    menus: (menus[weekday] && menus[weekday].menus)
+    location: findLocation(locations, location),
+    menus: filterMenus(menus, day),
+    days: days(menus, day)
   }
 }
 
-const App = ({ locations, menus, location, onSearch, onSelectLocation }) => {
+const App = ({ locations, menus, location, days, onSearch, onSelectLocation, onSelectDay }) => {
   return (
     <div class="page-content">
       <div class="app-layout">
@@ -37,7 +65,7 @@ const App = ({ locations, menus, location, onSearch, onSelectLocation }) => {
           <Locations locations={locations} onSelectLocation={onSelectLocation}/>
         </nav>
         <main class="content">
-          { location && <Location location={location} menus={menus}/> }
+          { location && <Location location={location} menus={menus} days={days} onSelectDay={onSelectDay}/> }
         </main>
       </div>
     </div>

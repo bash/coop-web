@@ -2,9 +2,8 @@ import { h, render } from 'preact'
 import { ConnectedApp } from './components/app'
 
 import { store } from './store'
-import { setLocations } from './actions'
-import { fetchLocations } from './api'
+import { fetchLocations } from './actions'
 
-fetchLocations().then((locations) => store.dispatch(setLocations(locations)))
+store.dispatch(fetchLocations())
 
 render(<ConnectedApp store={store}/>, document.body)
