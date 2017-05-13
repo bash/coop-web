@@ -38,9 +38,9 @@ git add -A
 
 TIMESTAMP=$(date +"%s")
 
-git config user.email "travis@rubys.ninja"
-git config user.name "Travis"
-git commit -m "Build for tag ${TRAVIS_TAG}"
+# git config user.email "travis@rubys.ninja"
+# git config user.name "Travis"
+git commit -m "Build for tag #$TIMESTAMP"
 
 echo "Pushing..."
 git push origin ${BRANCH}

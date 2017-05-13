@@ -11,7 +11,7 @@ const encode = encodeURIComponent
  * @param {string} location
  * @returns {Promise}
  */
-export function fetchLocation (location) {
+export function fetchLocationFromApi (location) {
   return fetch(`${API_BASE}/locations/${encode(location)}`)
     .then((resp) => resp.json())
 }
@@ -22,7 +22,7 @@ export function fetchLocation (location) {
  * @param {string} location
  * @returns {Promise}
  */
-export function fetchLocationMenus (location) {
+export function fetchMenusFromApi (location) {
   return fetch(`${API_BASE}/locations/${encode(location)}/menus`)
     .then((resp) => resp.json())
     .then((resp) => resp.results)

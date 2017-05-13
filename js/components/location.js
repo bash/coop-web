@@ -1,5 +1,5 @@
 import { h, Component } from 'preact'
-import { fetchLocationMenus } from '../api'
+// import { fetchLocationMenus } from '../api'
 
 const weekday = (timestamp) => {
   const format = new Intl.DateTimeFormat(navigator.languages, { weekday: 'long' })
@@ -86,12 +86,12 @@ export class Location extends Component {
   }
 
   _fetchData ({ location }) {
-    fetchLocationMenus(location.id)
+    /*fetchLocationMenus(location.id)
       .then((menus) => {
         const menusByDay = groupByDay(menus)
         const day = menusByDay.keys().next().value
 
         this.setState({ menusByDay, day })
-      })
+      })*/
   }
 }
