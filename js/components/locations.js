@@ -31,12 +31,15 @@ export const Locations = ({ onSelectLocation, locations }) => {
   const locationsCount = locations.length
 
   return (
-    <ul class="locations-list">
-      { locations
-        .slice(0, MAX_LOCATIONS)
-        .map((location) => <Location location={location} onSelect={onSelectLocation}/>)}
-
-      { locationsCount > MAX_LOCATIONS ? `${locationsCount - MAX_LOCATIONS} locations hidden` : ''}
-    </ul>
+    <div>
+      <ul class="locations-list">
+        { locations
+          .slice(0, MAX_LOCATIONS)
+          .map((location) => <Location location={location} onSelect={onSelectLocation}/>)}
+      </ul>
+      <footer class="locations-hidden">
+        { locationsCount > MAX_LOCATIONS ? `${locationsCount - MAX_LOCATIONS} locations hidden` : ''}
+      </footer>
+    </div>
   )
 }
