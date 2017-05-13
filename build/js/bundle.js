@@ -1934,6 +1934,12 @@ const filterLocations = (locations, search) => {
   return locations.map(location => ({ location, match: match(location, normalizedSearch) })).filter(({ match }) => match > -1).sort((a, b) => a.match > b.match).map(({ location }) => location);
 };
 
+function getCurrentPosition() {
+  return new Promise((resolve, reject) => {
+    navigator.geolocation.getCurrentPosition(resolve, reject);
+  });
+}
+
 const maxLocations = () => window.innerWidth < 796 ? 3 : 8;
 
 const Distance = ({ distance }) => {
@@ -2136,6 +2142,10 @@ function fetchLocationsFromApi() {
   });
 }
 
+function fetchLocationsByPositionFromApi(latitude, longitude) {
+  return fetch(`${API_BASE}/locations?latitude=${encode(latitude)}&longitude=${encode(longitude)}`).then(resp => resp.json()).then(({ results }) => results);
+}
+
 const SET_LOCATIONS = 'SET_LOCATIONS';
 const SELECT_LOCATION = 'SELECT_LOCATION';
 const RECEIVE_MENUS = 'RECEIVE_MENUS';
@@ -2170,7 +2180,20 @@ const fetchMenus = location => {
 
 const fetchLocations = () => {
   return dispatch => {
-    return fetchLocationsFromApi().then(locations => dispatch(setLocations(locations)));
+    let setByPosition = false;
+
+    const withoutLocation = fetchLocationsFromApi().then(locations => {
+      if (!setByPosition) {
+        dispatch(setLocations(locations));
+      }
+    });
+
+    const withLocation = getCurrentPosition().then(({ coords }) => fetchLocationsByPositionFromApi(coords.latitude, coords.longitude)).then(locations => {
+      setByPosition = true;
+      dispatch(setLocations(locations));
+    });
+
+    return Promise.all([withoutLocation, withLocation]);
   };
 };
 
