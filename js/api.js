@@ -52,7 +52,7 @@ export function fetchLocationsFromApi () {
  * @param {number} longitude
  * @returns {Promise<Array<{}>>}
  */
-export function fetchLocationsByPosition (latitude, longitude) {
+export function fetchLocationsByPositionFromApi (latitude, longitude) {
   return fetch(`${API_BASE}/locations?latitude=${encode(latitude)}&longitude=${encode(longitude)}`)
     .then((resp) => resp.json())
     .then(({ results }) => results)

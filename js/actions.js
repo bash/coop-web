@@ -1,4 +1,5 @@
-import { fetchLocationsFromApi, fetchMenusFromApi } from './api'
+import { fetchLocationsByPositionFromApi, fetchLocationsFromApi, fetchMenusFromApi } from './api'
+import { getCurrentPosition } from './utils'
 
 export const SET_LOCATIONS = 'SET_LOCATIONS'
 export const SELECT_LOCATION = 'SELECT_LOCATION'
@@ -35,7 +36,22 @@ export const fetchMenus = (location) => {
 
 export const fetchLocations = () => {
   return (dispatch) => {
-    return fetchLocationsFromApi()
-      .then((locations) => dispatch(setLocations(locations)))
+    let setByPosition = false
+
+    const withoutLocation = fetchLocationsFromApi()
+      .then((locations) => {
+        if (!setByPosition) {
+          dispatch(setLocations(locations))
+        }
+      })
+
+    const withLocation = getCurrentPosition()
+      .then(({ coords }) => fetchLocationsByPositionFromApi(coords.latitude, coords.longitude))
+      .then((locations) => {
+        setByPosition = true
+        dispatch(setLocations(locations))
+      })
+
+    return Promise.all([withoutLocation, withLocation])
   }
 }

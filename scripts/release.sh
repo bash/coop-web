@@ -20,6 +20,8 @@ cleanup() {
 
 trap cleanup EXIT
 
+BUILD_MODE=release make -B
+
 echo "Cloning repository..."
 git clone -b ${BRANCH} ${REMOTE_URL} ${TEMP_DIR} -q
 
