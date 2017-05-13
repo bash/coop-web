@@ -6,6 +6,13 @@ export const formatDistance = (distance) => {
   return `${Math.round(distance / 10) / 100}km`
 }
 
+export const weekday = (timestamp) => {
+  const format = new Intl.DateTimeFormat(navigator.languages, { weekday: 'long' })
+  const date = new Date(timestamp * 1000)
+
+  return format.format(date)
+}
+
 export const filterLocations = (locations, search) => {
   const match = (location, search) => location.name.toLowerCase().indexOf(search)
 

@@ -6,22 +6,27 @@ const MAX_LOCATIONS = 8
 const Distance = ({ distance }) => {
   return (
     <span class="distance">
-      {`${formatDistance(distance)} away`}
+      { `${formatDistance(distance)} away` }
     </span>
   )
 }
 
 const Location = ({ location, onSelect }) => {
-  const onClick = (event) => {
-    event.preventDefault()
+  const onClick = () => {
     onSelect(location.id)
+  }
+
+  const onKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      onSelect(location.id)
+    }
   }
 
   return (
     <li class="location">
-      <a onClick={onClick}>
-        {location.name}
-        {location.distance ? <Distance distance={location.distance}/> : ''}
+      <a onClick={onClick} onKeyPress={onKeyPress} tabIndex="0">
+        { location.name }
+        { location.distance && <Distance distance={location.distance}/> }
       </a>
     </li>
   )
@@ -35,10 +40,10 @@ export const Locations = ({ onSelectLocation, locations }) => {
       <ul class="locations-list">
         { locations
           .slice(0, MAX_LOCATIONS)
-          .map((location) => <Location location={location} onSelect={onSelectLocation}/>)}
+          .map((location) => <Location location={location} onSelect={onSelectLocation}/>) }
       </ul>
       <footer class="locations-hidden">
-        { locationsCount > MAX_LOCATIONS ? `${locationsCount - MAX_LOCATIONS} locations hidden` : ''}
+        { locationsCount > MAX_LOCATIONS ? `${locationsCount - MAX_LOCATIONS} locations hidden` : '' }
       </footer>
     </div>
   )

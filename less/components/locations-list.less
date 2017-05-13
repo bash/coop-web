@@ -8,6 +8,11 @@
     background-color: #fff;
     padding: 10px 20px;
     border-radius: var(--box-border-radius);
+    transition: box-shadow .1s;
+  }
+
+  > .location > a:focus {
+    box-shadow: 0 0 0 1px #fff, 0 0 0 3px rgba(0, 0, 0, .1);
   }
 
   > .location > a > .distance {

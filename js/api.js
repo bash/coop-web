@@ -11,21 +11,27 @@ const encode = encodeURIComponent
  * @param {string} location
  * @returns {Promise}
  */
-export function fetchLocationFromApi (location) {
-  return fetch(`${API_BASE}/locations/${encode(location)}`)
-    .then((resp) => resp.json())
-}
-
-
-/**
- *
- * @param {string} location
- * @returns {Promise}
- */
 export function fetchMenusFromApi (location) {
   return fetch(`${API_BASE}/locations/${encode(location)}/menus`)
     .then((resp) => resp.json())
-    .then((resp) => resp.results)
+    .then(({ results }) => {
+      // TODO: we need a cleaner way to group by day
+      const byDay = new Map()
+
+      results
+        .sort((a, b) => a.timestamp > b.timestamp)
+        .forEach((menu) => {
+          const timestamp = menu.timestamp
+
+          if (byDay.has(timestamp)) {
+            byDay.get(timestamp).push(menu)
+          } else {
+            byDay.set(timestamp, [menu])
+          }
+        })
+
+      return Array.from(byDay).map(([day, menus]) => ({ day, menus }))
+    })
 }
 
 /**

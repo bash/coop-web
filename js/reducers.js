@@ -5,7 +5,7 @@ const initialState = {
   location: null,
   menus: [],
   search: '',
-  // weekday: 0,
+  weekday: 0,
 }
 
 export function reduce (state = initialState, action) {

@@ -20,19 +20,15 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-const mapStateToProps = ({ locations, location, menus, search }) => {
+const mapStateToProps = ({ locations, location, menus, weekday, search }) => {
   return {
     locations: filterLocations(locations, search),
-    location,
-    menus
+    location: locations.find(($) => $.id === location),
+    menus: (menus[weekday] && menus[weekday].menus)
   }
 }
 
-// { location ? <Location location={location}/> : [] }
-
 const App = ({ locations, menus, location, onSearch, onSelectLocation }) => {
-  console.log(menus)
-
   return (
     <div class="page-content">
       <div class="app-layout">
@@ -41,7 +37,7 @@ const App = ({ locations, menus, location, onSearch, onSelectLocation }) => {
           <Locations locations={locations} onSelectLocation={onSelectLocation}/>
         </nav>
         <main class="content">
-          { location }
+          { location && <Location location={location} menus={menus}/> }
         </main>
       </div>
     </div>
