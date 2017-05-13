@@ -1925,12 +1925,13 @@ const weekday = timestamp => {
 
 const filterLocations = (locations, search) => {
   const match = (location, search) => location.name.toLowerCase().indexOf(search);
+  const normalizedSearch = search.trim().toLowerCase();
 
   if (search === '') {
     return locations;
   }
 
-  return locations.map(location => ({ location, match: match(location, search) })).filter(({ match }) => match > -1).sort((a, b) => a.match > b.match).map(({ location }) => location);
+  return locations.map(location => ({ location, match: match(location, normalizedSearch) })).filter(({ match }) => match > -1).sort((a, b) => a.match > b.match).map(({ location }) => location);
 };
 
 const maxLocations = () => window.innerWidth < 796 ? 3 : 8;
