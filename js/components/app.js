@@ -1,3 +1,5 @@
+// @flow
+
 import { h } from 'preact'
 
 // See: https://github.com/developit/preact-redux/pull/15

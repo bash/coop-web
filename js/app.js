@@ -1,3 +1,5 @@
+// @flow
+
 import { h, render } from 'preact'
 import { ConnectedApp } from './components/app'
 

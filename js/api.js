@@ -1,18 +1,12 @@
-/**
- *
- * @type {string}
- */
-const API_BASE = 'https://themachine.jeremystucki.com/coop/api/v2'
+// @flow
 
+import type { GroupedMenus, Location } from './types'
+
+const API_BASE = 'https://themachine.jeremystucki.com/coop/api/v2'
 const encode = encodeURIComponent
 
-/**
- *
- * @param {string} location
- * @returns {Promise}
- */
-export function fetchMenusFromApi (location) {
-  return fetch(`${API_BASE}/locations/${encode(location)}/menus`)
+export function fetchMenusFromApi (location: number): Promise<GroupedMenus> {
+  return fetch(`${API_BASE}/locations/${encode(location.toString())}/menus`)
     .then((resp) => resp.json())
     .then(({ results }) => {
       // TODO: we need a cleaner way to group by day
@@ -22,9 +16,10 @@ export function fetchMenusFromApi (location) {
         .sort((a, b) => a.timestamp > b.timestamp)
         .forEach((menu) => {
           const timestamp = menu.timestamp
+          const menus = byDay.get(timestamp)
 
-          if (byDay.has(timestamp)) {
-            byDay.get(timestamp).push(menu)
+          if (menus != null) {
+            menus.push(menu)
           } else {
             byDay.set(timestamp, [menu])
           }
@@ -34,11 +29,7 @@ export function fetchMenusFromApi (location) {
     })
 }
 
-/**
- *
- * @returns {Promise}
- */
-export function fetchLocationsFromApi () {
+export function fetchLocationsFromApi (): Promise<Array<Location>> {
   return fetch(`${API_BASE}/locations`)
     .then((resp) => resp.json())
     .then(({ results }) => {
@@ -46,14 +37,8 @@ export function fetchLocationsFromApi () {
     })
 }
 
-/**
- *
- * @param {number} latitude
- * @param {number} longitude
- * @returns {Promise<Array<{}>>}
- */
-export function fetchLocationsByPositionFromApi (latitude, longitude) {
-  return fetch(`${API_BASE}/locations?latitude=${encode(latitude)}&longitude=${encode(longitude)}`)
+export function fetchLocationsByPositionFromApi (latitude: number, longitude: number) {
+  return fetch(`${API_BASE}/locations?latitude=${encode(latitude.toString())}&longitude=${encode(longitude.toString())}`)
     .then((resp) => resp.json())
     .then(({ results }) => results)
 }

@@ -1,5 +1,8 @@
+// @flow
+
 import { h } from 'preact'
 import { weekday } from '../utils'
+import type { Location as LocationType, Menu as MenuType } from '../types'
 
 const Menu = ({ menu }) => {
   return (
@@ -21,7 +24,14 @@ const Day = ({ day, timestamp, onClick, active }) => {
   )
 }
 
-export const Location = ({ location, menus, days, onSelectDay }) => {
+type LocationProps = {
+  location: LocationType,
+  menus: Array<MenuType>,
+  days: Array<{ day: number, timestamp: number, active: boolean }>,
+  onSelectDay: (day: number) => void
+}
+
+export const Location = ({ location, menus, days, onSelectDay }: LocationProps) => {
   return (
     <article>
       <h1>{location.name}</h1>

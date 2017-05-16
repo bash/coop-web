@@ -1,3 +1,5 @@
+// @flow
+
 import { applyMiddleware, createStore } from 'redux'
 import thunkMiddleware from 'redux-thunk'
 import { reduce } from './reducers'

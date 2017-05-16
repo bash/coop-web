@@ -1,4 +1,8 @@
-export const formatDistance = (distance) => {
+// @flow
+
+import type { Location } from './types'
+
+export const formatDistance = (distance: number) => {
   if (distance < 1000) {
     return `${Math.round(distance)}m`
   }
@@ -6,14 +10,14 @@ export const formatDistance = (distance) => {
   return `${Math.round(distance / 10) / 100}km`
 }
 
-export const weekday = (timestamp) => {
-  const format = new Intl.DateTimeFormat(navigator.languages, { weekday: 'long' })
+export const weekday = (timestamp: number) => {
+  const format = new window.Intl.DateTimeFormat(navigator.languages, { weekday: 'long' })
   const date = new Date(timestamp * 1000)
 
   return format.format(date)
 }
 
-export const filterLocations = (locations, search) => {
+export const filterLocations = (locations: Array<Location>, search: string) => {
   const match = (location, search) => location.name.toLowerCase().indexOf(search)
   const normalizedSearch = search.trim().toLowerCase()
 
@@ -24,7 +28,7 @@ export const filterLocations = (locations, search) => {
   return locations
     .map((location) => ({ location, match: match(location, normalizedSearch) }))
     .filter(({ match }) => match > -1)
-    .sort((a, b) => a.match > b.match)
+    .sort((a, b) => a.match - b.match)
     .map(({ location }) => location)
 }
 

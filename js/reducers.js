@@ -1,3 +1,5 @@
+// @flow
+
 import { SELECT_LOCATION, SET_LOCATIONS, SEARCH, RECEIVE_MENUS, SELECT_DAY } from './actions'
 
 const initialState = {
@@ -8,7 +10,9 @@ const initialState = {
   day: 0,
 }
 
-export function reduce (state = initialState, { type, ...action }) {
+type State = typeof initialState
+
+export function reduce (state: State = initialState, { type, ...action }: { type: string }) {
   switch (type) {
     case SELECT_LOCATION:
       return { ...state, location: action.location }

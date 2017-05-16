@@ -7,6 +7,7 @@ const plugins = [
     babelrc: false,
     comments: false,
     presets: [
+      'flow',
       [
         'env',
         {

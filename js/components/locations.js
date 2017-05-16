@@ -1,3 +1,5 @@
+// @flow
+
 import { h, Component } from 'preact'
 import { formatDistance } from '../utils'
 

@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "flow": "flow"
   },
   "repository": {
     "type": "git",
@@ -17,13 +18,16 @@
   "homepage": "https://github.com/bash/coop-web#readme",
   "devDependencies": {
     "autoprefixer": "^6.1.0",
+    "babel-cli": "^6.24.1",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-node-env-inline": "0.0.2",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "babel-plugin-transform-react-jsx": "^6.24.1",
     "babel-preset-env": "^1.4.0",
+    "babel-preset-flow": "^6.23.0",
     "cssnano": "^3.7.3",
+    "flow-bin": "^0.46.0",
     "harmony-collections": "^0.3.8",
     "less": "^2.5.3",
     "postcss-cli": "^2.3.2",
