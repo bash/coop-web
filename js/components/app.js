@@ -42,9 +42,9 @@ const days = (menus, day) => {
     return []
   }
 
-  return menus.map(({ timestamp }, i) => {
-    return { day: i, timestamp, active: (i === day) }
-  })
+  return menus
+    .map(({ timestamp }, i) => ({ day: i, timestamp, active: (i === day) }))
+    .sort((a, b) => a.timestamp > b.timestamp)
 }
 
 const mapStateToProps = ({ locations, location, menus, day, search }) => {
