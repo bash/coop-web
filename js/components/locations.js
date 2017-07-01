@@ -1,4 +1,4 @@
-import { h, Component } from 'preact'
+import { Component } from 'preact'
 import { formatDistance } from '../utils'
 
 const maxLocations = () => window.innerWidth < 796 ? 3 : 8

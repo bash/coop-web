@@ -1,4 +1,4 @@
-import { h, render } from 'preact'
+import { render } from 'preact'
 import { ConnectedApp } from './components/app'
 
 import { store } from './store'

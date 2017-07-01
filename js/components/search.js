@@ -1,5 +1,3 @@
-import { h } from 'preact'
-
 export function Search ({ onSearch }) {
   return (
     <input type="search"

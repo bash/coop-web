@@ -21,8 +21,9 @@
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-node-env-inline": "0.0.2",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
+    "babel-plugin-transform-preact-import": "^1.0.0",
     "babel-plugin-transform-react-jsx": "^6.24.1",
-    "babel-preset-env": "^1.4.0",
+    "babel-preset-env": "^1.5.2",
     "cssnano": "^3.7.3",
     "harmony-collections": "^0.3.8",
     "less": "^2.5.3",
@@ -31,13 +32,13 @@
     "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-node-resolve": "^3.0.0",
     "standard": "^6.0.7",
-    "uglify-js": "^2.6.1",
+    "uglify-js": "^2.8.29",
     "whatwg-fetch": "^1.0.0"
   },
   "dependencies": {
     "preact": "^8.1.0",
-    "preact-redux": "^2.0.1",
-    "redux": "^3.6.0",
+    "preact-redux": "^2.0.2",
+    "redux": "^3.7.1",
     "redux-thunk": "^2.2.0"
   }
 }

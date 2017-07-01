@@ -1,8 +1,4 @@
-import { h } from 'preact'
-
-// See: https://github.com/developit/preact-redux/pull/15
-import preactRedux from 'preact-redux'
-const { connect } = preactRedux
+import { connect } from 'preact-redux'
 
 import { Locations } from './locations'
 import { Location } from './location'

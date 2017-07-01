@@ -27,6 +27,7 @@ const plugins = [
       'transform-class-properties',
       'transform-node-env-inline',
       'transform-object-rest-spread',
+      'transform-preact-import',
       [
         'transform-react-jsx', { 'pragma': 'h' }
       ]
