@@ -686,37 +686,37 @@ function render(vnode, parent, merge) {
   return diff(merge, vnode, {}, false, parent, false);
 }
 
-var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;
+var freeGlobal$1 = typeof global == 'object' && global && global.Object === Object && global;
 
-var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
+var freeSelf$1 = typeof self == 'object' && self && self.Object === Object && self;
 
-var root = freeGlobal || freeSelf || Function('return this')();
+var root$1 = freeGlobal$1 || freeSelf$1 || Function('return this')();
 
-var Symbol$1 = root.Symbol;
+var Symbol$1 = root$1.Symbol;
 
-var objectProto$2 = Object.prototype;
+var objectProto$2$1 = Object.prototype;
 
-var hasOwnProperty$2 = objectProto$2.hasOwnProperty;
+var hasOwnProperty$2 = objectProto$2$1.hasOwnProperty;
 
-var nativeObjectToString = objectProto$2.toString;
+var nativeObjectToString$1$1 = objectProto$2$1.toString;
 
-var symToStringTag$1 = Symbol$1 ? Symbol$1.toStringTag : undefined;
+var symToStringTag$2 = Symbol$1 ? Symbol$1.toStringTag : undefined;
 
-function getRawTag(value) {
-  var isOwn = hasOwnProperty$2.call(value, symToStringTag$1),
-      tag = value[symToStringTag$1];
+function getRawTag$1(value) {
+  var isOwn = hasOwnProperty$2.call(value, symToStringTag$2),
+      tag = value[symToStringTag$2];
 
   try {
-    value[symToStringTag$1] = undefined;
+    value[symToStringTag$2] = undefined;
     var unmasked = true;
   } catch (e) {}
 
-  var result = nativeObjectToString.call(value);
+  var result = nativeObjectToString$1$1.call(value);
   if (unmasked) {
     if (isOwn) {
-      value[symToStringTag$1] = tag;
+      value[symToStringTag$2] = tag;
     } else {
-      delete value[symToStringTag$1];
+      delete value[symToStringTag$2];
     }
   }
   return result;
@@ -724,31 +724,31 @@ function getRawTag(value) {
 
 var objectProto$3 = Object.prototype;
 
-var nativeObjectToString$1 = objectProto$3.toString;
+var nativeObjectToString$2 = objectProto$3.toString;
 
 function objectToString$1(value) {
-  return nativeObjectToString$1.call(value);
+  return nativeObjectToString$2.call(value);
 }
 
-var nullTag = '[object Null]';
-var undefinedTag = '[object Undefined]';
+var nullTag$1 = '[object Null]';
+var undefinedTag$1 = '[object Undefined]';
 
-var symToStringTag = Symbol$1 ? Symbol$1.toStringTag : undefined;
+var symToStringTag$1$1 = Symbol$1 ? Symbol$1.toStringTag : undefined;
 
-function baseGetTag(value) {
+function baseGetTag$1(value) {
   if (value == null) {
-    return value === undefined ? undefinedTag : nullTag;
+    return value === undefined ? undefinedTag$1 : nullTag$1;
   }
-  return symToStringTag && symToStringTag in Object(value) ? getRawTag(value) : objectToString$1(value);
+  return symToStringTag$1$1 && symToStringTag$1$1 in Object(value) ? getRawTag$1(value) : objectToString$1(value);
 }
 
-function overArg(func, transform) {
+function overArg$1(func, transform) {
   return function (arg) {
     return func(transform(arg));
   };
 }
 
-var getPrototype$1 = overArg(Object.getPrototypeOf, Object);
+var getPrototype$1 = overArg$1(Object.getPrototypeOf, Object);
 
 function isObjectLike$1(value) {
   return value != null && typeof value == 'object';
@@ -756,24 +756,24 @@ function isObjectLike$1(value) {
 
 var objectTag$1 = '[object Object]';
 
-var funcProto = Function.prototype;
-var objectProto$1 = Object.prototype;
+var funcProto$1 = Function.prototype;
+var objectProto$1$1 = Object.prototype;
 
-var funcToString$1 = funcProto.toString;
+var funcToString$1 = funcProto$1.toString;
 
-var hasOwnProperty$1 = objectProto$1.hasOwnProperty;
+var hasOwnProperty$1$1 = objectProto$1$1.hasOwnProperty;
 
 var objectCtorString$1 = funcToString$1.call(Object);
 
 function isPlainObject$1(value) {
-  if (!isObjectLike$1(value) || baseGetTag(value) != objectTag$1) {
+  if (!isObjectLike$1(value) || baseGetTag$1(value) != objectTag$1) {
     return false;
   }
   var proto = getPrototype$1(value);
   if (proto === null) {
     return true;
   }
-  var Ctor = hasOwnProperty$1.call(proto, 'constructor') && proto.constructor;
+  var Ctor = hasOwnProperty$1$1.call(proto, 'constructor') && proto.constructor;
   return typeof Ctor == 'function' && Ctor instanceof Ctor && funcToString$1.call(Ctor) == objectCtorString$1;
 }
 
@@ -795,27 +795,26 @@ function symbolObservablePonyfill(root) {
 	return result;
 }
 
-var root$2;
+var root$3;
 
 if (typeof self !== 'undefined') {
-  root$2 = self;
+  root$3 = self;
 } else if (typeof window !== 'undefined') {
-  root$2 = window;
+  root$3 = window;
 } else if (typeof global !== 'undefined') {
-  root$2 = global;
+  root$3 = global;
 } else if (typeof module !== 'undefined') {
-  root$2 = module;
+  root$3 = module;
 } else {
-  root$2 = Function('return this')();
+  root$3 = Function('return this')();
 }
 
-var result = symbolObservablePonyfill(root$2);
+var result = symbolObservablePonyfill(root$3);
 
 var ActionTypes = {
   INIT: '@@redux/INIT'
-};
 
-function createStore(reducer, preloadedState, enhancer) {
+};function createStore(reducer, preloadedState, enhancer) {
   var _ref2;
 
   if (typeof preloadedState === 'function' && typeof enhancer === 'undefined') {
@@ -896,7 +895,8 @@ function createStore(reducer, preloadedState, enhancer) {
 
     var listeners = currentListeners = nextListeners;
     for (var i = 0; i < listeners.length; i++) {
-      listeners[i]();
+      var listener = listeners[i];
+      listener();
     }
 
     return action;
@@ -998,13 +998,11 @@ function compose() {
     return funcs[0];
   }
 
-  var last = funcs[funcs.length - 1];
-  var rest = funcs.slice(0, -1);
-  return function () {
-    return rest.reduceRight(function (composed, f) {
-      return f(composed);
-    }, last.apply(undefined, arguments));
-  };
+  return funcs.reduce(function (a, b) {
+    return function () {
+      return a(b.apply(undefined, arguments));
+    };
+  });
 }
 
 var _extends$1 = Object.assign || function (target) {
@@ -1072,10 +1070,33 @@ var PropTypes = {
   }
 };
 
+var subscriptionShape = PropTypes.shape({
+  trySubscribe: PropTypes.func.isRequired,
+  tryUnsubscribe: PropTypes.func.isRequired,
+  notifyNestedSubs: PropTypes.func.isRequired,
+  isSubscribed: PropTypes.func.isRequired
+});
+
+var storeShape = PropTypes.shape({
+  subscribe: PropTypes.func.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  getState: PropTypes.func.isRequired
+});
+
+function warning(message) {
+  if (typeof console !== 'undefined' && typeof console.error === 'function') {
+    console.error(message);
+  }
+
+  try {
+    throw new Error(message);
+  } catch (e) {}
+}
+
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
   return typeof obj;
 } : function (obj) {
-  return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj;
+  return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
 };
 
 var classCallCheck = function (instance, Constructor) {
@@ -1134,6 +1155,109 @@ var possibleConstructorReturn = function (self, call) {
   return call && (typeof call === "object" || typeof call === "function") ? call : self;
 };
 
+var didWarnAboutReceivingStore = false;
+function warnAboutReceivingStore() {
+  if (didWarnAboutReceivingStore) {
+    return;
+  }
+  didWarnAboutReceivingStore = true;
+
+  warning('<Provider> does not support changing `store` on the fly. ' + 'It is most likely that you see this error because you updated to ' + 'Redux 2.x and React Redux 2.x which no longer hot reload reducers ' + 'automatically. See https://github.com/reactjs/react-redux/releases/' + 'tag/v2.0.0 for the migration instructions.');
+}
+
+function createProvider() {
+  var _Provider$childContex;
+
+  var storeKey = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'store';
+  var subKey = arguments[1];
+
+  var subscriptionKey = subKey || storeKey + 'Subscription';
+
+  var Provider = function (_Component) {
+    inherits(Provider, _Component);
+
+    Provider.prototype.getChildContext = function getChildContext() {
+      var _ref;
+
+      return _ref = {}, _ref[storeKey] = this[storeKey], _ref[subscriptionKey] = null, _ref;
+    };
+
+    function Provider(props, context) {
+      classCallCheck(this, Provider);
+
+      var _this = possibleConstructorReturn(this, _Component.call(this, props, context));
+
+      _this[storeKey] = props.store;
+      return _this;
+    }
+
+    Provider.prototype.render = function render$$1() {
+      return Children.only(this.props.children);
+    };
+
+    return Provider;
+  }(Component);
+
+  {
+    Provider.prototype.componentWillReceiveProps = function (nextProps) {
+      if (this[storeKey] !== nextProps.store) {
+        warnAboutReceivingStore();
+      }
+    };
+  }
+
+  Provider.childContextTypes = (_Provider$childContex = {}, _Provider$childContex[storeKey] = storeShape.isRequired, _Provider$childContex[subscriptionKey] = subscriptionShape, _Provider$childContex);
+  Provider.displayName = 'Provider';
+
+  return Provider;
+}
+
+var Provider = createProvider();
+
+var REACT_STATICS = {
+  childContextTypes: true,
+  contextTypes: true,
+  defaultProps: true,
+  displayName: true,
+  getDefaultProps: true,
+  mixins: true,
+  propTypes: true,
+  type: true
+};
+
+var KNOWN_STATICS = {
+  name: true,
+  length: true,
+  prototype: true,
+  caller: true,
+  arguments: true,
+  arity: true
+};
+
+var isGetOwnPropertySymbolsAvailable = typeof Object.getOwnPropertySymbols === 'function';
+
+var index$1 = function hoistNonReactStatics(targetComponent, sourceComponent, customStatics) {
+  if (typeof sourceComponent !== 'string') {
+    var keys = Object.getOwnPropertyNames(sourceComponent);
+
+    if (isGetOwnPropertySymbolsAvailable) {
+      keys = keys.concat(Object.getOwnPropertySymbols(sourceComponent));
+    }
+
+    for (var i = 0; i < keys.length; ++i) {
+      if (!REACT_STATICS[keys[i]] && !KNOWN_STATICS[keys[i]] && (!customStatics || !customStatics[keys[i]])) {
+        try {
+          targetComponent[keys[i]] = sourceComponent[keys[i]];
+        } catch (error) {}
+      }
+    }
+  }
+
+  return targetComponent;
+};
+
+var invariant = function () {};
+
 var CLEARED = null;
 var nullListeners = {
   notify: function notify() {}
@@ -1171,11 +1295,12 @@ function createListenerCollection() {
 }
 
 var Subscription = function () {
-  function Subscription(store, parentSub) {
+  function Subscription(store, parentSub, onStateChange) {
     classCallCheck(this, Subscription);
 
     this.store = store;
     this.parentSub = parentSub;
+    this.onStateChange = onStateChange;
     this.unsubscribe = null;
     this.listeners = nullListeners;
   }
@@ -1213,146 +1338,58 @@ var Subscription = function () {
   return Subscription;
 }();
 
-var storeShape = PropTypes.shape({
-  subscribe: PropTypes.func.isRequired,
-  dispatch: PropTypes.func.isRequired,
-  getState: PropTypes.func.isRequired
-});
-
-function warning(message) {
-  if (typeof console !== 'undefined' && typeof console.error === 'function') {
-    console.error(message);
-  }
-
-  try {
-    throw new Error(message);
-  } catch (e) {}
-}
-
-var didWarnAboutReceivingStore = false;
-function warnAboutReceivingStore() {
-  if (didWarnAboutReceivingStore) {
-    return;
-  }
-  didWarnAboutReceivingStore = true;
-
-  warning('<Provider> does not support changing `store` on the fly. ' + 'It is most likely that you see this error because you updated to ' + 'Redux 2.x and React Redux 2.x which no longer hot reload reducers ' + 'automatically. See https://github.com/reactjs/react-redux/releases/' + 'tag/v2.0.0 for the migration instructions.');
-}
-
-var Provider = function (_Component) {
-  inherits(Provider, _Component);
-
-  Provider.prototype.getChildContext = function getChildContext() {
-    return { store: this.store, storeSubscription: null };
-  };
-
-  function Provider(props, context) {
-    classCallCheck(this, Provider);
-
-    var _this = possibleConstructorReturn(this, _Component.call(this, props, context));
-
-    _this.store = props.store;
-    return _this;
-  }
-
-  Provider.prototype.render = function render$$1() {
-    return Children.only(this.props.children);
-  };
-
-  return Provider;
-}(Component);
-
-{
-  Provider.prototype.componentWillReceiveProps = function (nextProps) {
-    var store = this.store;
-    var nextStore = nextProps.store;
-
-    if (store !== nextStore) {
-      warnAboutReceivingStore();
-    }
-  };
-}
-
-Provider.childContextTypes = {
-  store: storeShape.isRequired,
-  storeSubscription: PropTypes.instanceOf(Subscription)
-};
-Provider.displayName = 'Provider';
-
-var REACT_STATICS = {
-  childContextTypes: true,
-  contextTypes: true,
-  defaultProps: true,
-  displayName: true,
-  getDefaultProps: true,
-  mixins: true,
-  propTypes: true,
-  type: true
-};
-
-var KNOWN_STATICS = {
-  name: true,
-  length: true,
-  prototype: true,
-  caller: true,
-  arguments: true,
-  arity: true
-};
-
-var isGetOwnPropertySymbolsAvailable = typeof Object.getOwnPropertySymbols === 'function';
-
-var index = function hoistNonReactStatics(targetComponent, sourceComponent, customStatics) {
-  if (typeof sourceComponent !== 'string') {
-    var keys = Object.getOwnPropertyNames(sourceComponent);
-
-    if (isGetOwnPropertySymbolsAvailable) {
-      keys = keys.concat(Object.getOwnPropertySymbols(sourceComponent));
-    }
-
-    for (var i = 0; i < keys.length; ++i) {
-      if (!REACT_STATICS[keys[i]] && !KNOWN_STATICS[keys[i]] && (!customStatics || !customStatics[keys[i]])) {
-        try {
-          targetComponent[keys[i]] = sourceComponent[keys[i]];
-        } catch (error) {}
+var hotReloadingVersion = 0;
+var dummyState = {};
+function noop() {}
+function makeSelectorStateful(sourceSelector, store) {
+  var selector = {
+    run: function runComponentSelector(props) {
+      try {
+        var nextProps = sourceSelector(store.getState(), props);
+        if (nextProps !== selector.props || selector.error) {
+          selector.shouldComponentUpdate = true;
+          selector.props = nextProps;
+          selector.error = null;
+        }
+      } catch (error) {
+        selector.shouldComponentUpdate = true;
+        selector.error = error;
       }
     }
-  }
+  };
 
-  return targetComponent;
-};
+  return selector;
+}
 
-var invariant = function () {};
-
-var hotReloadingVersion = 0;
 function connectAdvanced(selectorFactory) {
   var _contextTypes, _childContextTypes;
 
-  var _ref = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+  var _ref = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-  var _ref$getDisplayName = _ref.getDisplayName;
-  var getDisplayName = _ref$getDisplayName === undefined ? function (name) {
+  var _ref$getDisplayName = _ref.getDisplayName,
+      getDisplayName = _ref$getDisplayName === undefined ? function (name) {
     return 'ConnectAdvanced(' + name + ')';
-  } : _ref$getDisplayName;
-  var _ref$methodName = _ref.methodName;
-  var methodName = _ref$methodName === undefined ? 'connectAdvanced' : _ref$methodName;
-  var _ref$renderCountProp = _ref.renderCountProp;
-  var renderCountProp = _ref$renderCountProp === undefined ? undefined : _ref$renderCountProp;
-  var _ref$shouldHandleStat = _ref.shouldHandleStateChanges;
-  var shouldHandleStateChanges = _ref$shouldHandleStat === undefined ? true : _ref$shouldHandleStat;
-  var _ref$storeKey = _ref.storeKey;
-  var storeKey = _ref$storeKey === undefined ? 'store' : _ref$storeKey;
-  var _ref$withRef = _ref.withRef;
-  var withRef = _ref$withRef === undefined ? false : _ref$withRef;
-  var connectOptions = objectWithoutProperties(_ref, ['getDisplayName', 'methodName', 'renderCountProp', 'shouldHandleStateChanges', 'storeKey', 'withRef']);
+  } : _ref$getDisplayName,
+      _ref$methodName = _ref.methodName,
+      methodName = _ref$methodName === undefined ? 'connectAdvanced' : _ref$methodName,
+      _ref$renderCountProp = _ref.renderCountProp,
+      renderCountProp = _ref$renderCountProp === undefined ? undefined : _ref$renderCountProp,
+      _ref$shouldHandleStat = _ref.shouldHandleStateChanges,
+      shouldHandleStateChanges = _ref$shouldHandleStat === undefined ? true : _ref$shouldHandleStat,
+      _ref$storeKey = _ref.storeKey,
+      storeKey = _ref$storeKey === undefined ? 'store' : _ref$storeKey,
+      _ref$withRef = _ref.withRef,
+      withRef = _ref$withRef === undefined ? false : _ref$withRef,
+      connectOptions = objectWithoutProperties(_ref, ['getDisplayName', 'methodName', 'renderCountProp', 'shouldHandleStateChanges', 'storeKey', 'withRef']);
 
   var subscriptionKey = storeKey + 'Subscription';
   var version = hotReloadingVersion++;
 
-  var contextTypes = (_contextTypes = {}, _contextTypes[storeKey] = storeShape, _contextTypes[subscriptionKey] = PropTypes.instanceOf(Subscription), _contextTypes);
-  var childContextTypes = (_childContextTypes = {}, _childContextTypes[subscriptionKey] = PropTypes.instanceOf(Subscription), _childContextTypes);
+  var contextTypes = (_contextTypes = {}, _contextTypes[storeKey] = storeShape, _contextTypes[subscriptionKey] = subscriptionShape, _contextTypes);
+  var childContextTypes = (_childContextTypes = {}, _childContextTypes[subscriptionKey] = subscriptionShape, _childContextTypes);
 
   return function wrapWithConnect(WrappedComponent) {
-    invariant(typeof WrappedComponent == 'function', 'You must pass a component to the function returned by ' + ('connect. Instead received ' + WrappedComponent));
+    invariant(typeof WrappedComponent == 'function', 'You must pass a component to the function returned by ' + ('connect. Instead received ' + JSON.stringify(WrappedComponent)));
 
     var wrappedComponentName = WrappedComponent.displayName || WrappedComponent.name || 'Component';
 
@@ -1381,14 +1418,11 @@ function connectAdvanced(selectorFactory) {
         _this.version = version;
         _this.state = {};
         _this.renderCount = 0;
-        _this.store = _this.props[storeKey] || _this.context[storeKey];
-        _this.parentSub = props[subscriptionKey] || context[subscriptionKey];
-
+        _this.store = props[storeKey] || context[storeKey];
+        _this.propsMode = Boolean(props[storeKey]);
         _this.setWrappedInstance = _this.setWrappedInstance.bind(_this);
 
-        invariant(_this.store, 'Could not find "' + storeKey + '" in either the context or ' + ('props of "' + displayName + '". ') + 'Either wrap the root component in a <Provider>, ' + ('or explicitly pass "' + storeKey + '" as a prop to "' + displayName + '".'));
-
-        _this.getState = _this.store.getState.bind(_this.store);
+        invariant(_this.store, 'Could not find "' + storeKey + '" in either the context or props of ' + ('"' + displayName + '". Either wrap the root component in a <Provider>, ') + ('or explicitly pass "' + storeKey + '" as a prop to "' + displayName + '".'));
 
         _this.initSelector();
         _this.initSubscription();
@@ -1398,7 +1432,8 @@ function connectAdvanced(selectorFactory) {
       Connect.prototype.getChildContext = function getChildContext() {
         var _ref2;
 
-        return _ref2 = {}, _ref2[subscriptionKey] = this.subscription || this.parentSub, _ref2;
+        var subscription = this.propsMode ? null : this.subscription;
+        return _ref2 = {}, _ref2[subscriptionKey] = subscription || this.context[subscriptionKey], _ref2;
       };
 
       Connect.prototype.componentDidMount = function componentDidMount() {
@@ -1419,11 +1454,11 @@ function connectAdvanced(selectorFactory) {
 
       Connect.prototype.componentWillUnmount = function componentWillUnmount() {
         if (this.subscription) this.subscription.tryUnsubscribe();
-
         this.subscription = null;
+        this.notifyNestedSubs = noop;
         this.store = null;
-        this.parentSub = null;
-        this.selector.run = function () {};
+        this.selector.run = noop;
+        this.selector.shouldComponentUpdate = false;
       };
 
       Connect.prototype.getWrappedInstance = function getWrappedInstance() {
@@ -1436,54 +1471,34 @@ function connectAdvanced(selectorFactory) {
       };
 
       Connect.prototype.initSelector = function initSelector() {
-        var dispatch = this.store.dispatch;
-        var getState = this.getState;
-
-        var sourceSelector = selectorFactory(dispatch, selectorFactoryOptions);
-
-        var selector = this.selector = {
-          shouldComponentUpdate: true,
-          props: sourceSelector(getState(), this.props),
-          run: function runComponentSelector(props) {
-            try {
-              var nextProps = sourceSelector(getState(), props);
-              if (selector.error || nextProps !== selector.props) {
-                selector.shouldComponentUpdate = true;
-                selector.props = nextProps;
-                selector.error = null;
-              }
-            } catch (error) {
-              selector.shouldComponentUpdate = true;
-              selector.error = error;
-            }
-          }
-        };
+        var sourceSelector = selectorFactory(this.store.dispatch, selectorFactoryOptions);
+        this.selector = makeSelectorStateful(sourceSelector, this.store);
+        this.selector.run(this.props);
       };
 
       Connect.prototype.initSubscription = function initSubscription() {
-        var _this2 = this;
+        if (!shouldHandleStateChanges) return;
 
-        if (shouldHandleStateChanges) {
-          (function () {
-            var subscription = _this2.subscription = new Subscription(_this2.store, _this2.parentSub);
-            var dummyState = {};
+        var parentSub = (this.propsMode ? this.props : this.context)[subscriptionKey];
+        this.subscription = new Subscription(this.store, parentSub, this.onStateChange.bind(this));
 
-            subscription.onStateChange = function onStateChange() {
-              this.selector.run(this.props);
+        this.notifyNestedSubs = this.subscription.notifyNestedSubs.bind(this.subscription);
+      };
 
-              if (!this.selector.shouldComponentUpdate) {
-                subscription.notifyNestedSubs();
-              } else {
-                this.componentDidUpdate = function componentDidUpdate() {
-                  this.componentDidUpdate = undefined;
-                  subscription.notifyNestedSubs();
-                };
+      Connect.prototype.onStateChange = function onStateChange() {
+        this.selector.run(this.props);
 
-                this.setState(dummyState);
-              }
-            }.bind(_this2);
-          })();
+        if (!this.selector.shouldComponentUpdate) {
+          this.notifyNestedSubs();
+        } else {
+          this.componentDidUpdate = this.notifyNestedSubsOnComponentDidUpdate;
+          this.setState(dummyState);
         }
+      };
+
+      Connect.prototype.notifyNestedSubsOnComponentDidUpdate = function notifyNestedSubsOnComponentDidUpdate() {
+        this.componentDidUpdate = undefined;
+        this.notifyNestedSubs();
       };
 
       Connect.prototype.isSubscribed = function isSubscribed() {
@@ -1491,11 +1506,12 @@ function connectAdvanced(selectorFactory) {
       };
 
       Connect.prototype.addExtraProps = function addExtraProps(props) {
-        if (!withRef && !renderCountProp) return props;
+        if (!withRef && !renderCountProp && !(this.propsMode && this.subscription)) return props;
 
         var withExtras = _extends({}, props);
         if (withRef) withExtras.ref = this.setWrappedInstance;
         if (renderCountProp) withExtras[renderCountProp] = this.renderCount++;
+        if (this.propsMode && this.subscription) withExtras[subscriptionKey] = this.subscription;
         return withExtras;
       };
 
@@ -1531,64 +1547,122 @@ function connectAdvanced(selectorFactory) {
       };
     }
 
-    return index(Connect, WrappedComponent);
+    return index$1(Connect, WrappedComponent);
   };
 }
 
 var hasOwn = Object.prototype.hasOwnProperty;
 
-function shallowEqual(a, b) {
-  if (a === b) return true;
-
-  var countA = 0;
-  var countB = 0;
-
-  for (var key in a) {
-    if (hasOwn.call(a, key) && a[key] !== b[key]) return false;
-    countA++;
+function is(x, y) {
+  if (x === y) {
+    return x !== 0 || y !== 0 || 1 / x === 1 / y;
+  } else {
+    return x !== x && y !== y;
   }
-
-  for (var _key in b) {
-    if (hasOwn.call(b, _key)) countB++;
-  }
-
-  return countA === countB;
 }
 
-var nativeGetPrototype = Object.getPrototypeOf;
+function shallowEqual(objA, objB) {
+  if (is(objA, objB)) return true;
 
-function getPrototype(value) {
-  return nativeGetPrototype(Object(value));
+  if ((typeof objA === 'undefined' ? 'undefined' : _typeof(objA)) !== 'object' || objA === null || (typeof objB === 'undefined' ? 'undefined' : _typeof(objB)) !== 'object' || objB === null) {
+    return false;
+  }
+
+  var keysA = Object.keys(objA);
+  var keysB = Object.keys(objB);
+
+  if (keysA.length !== keysB.length) return false;
+
+  for (var i = 0; i < keysA.length; i++) {
+    if (!hasOwn.call(objB, keysA[i]) || !is(objA[keysA[i]], objB[keysA[i]])) {
+      return false;
+    }
+  }
+
+  return true;
 }
 
-function isHostObject(value) {
-  var result = false;
-  if (value != null && typeof value.toString != 'function') {
-    try {
-      result = !!(value + '');
-    } catch (e) {}
+var freeGlobal = (typeof global === 'undefined' ? 'undefined' : _typeof(global)) == 'object' && global && global.Object === Object && global;
+
+var freeSelf = (typeof self === 'undefined' ? 'undefined' : _typeof(self)) == 'object' && self && self.Object === Object && self;
+
+var root = freeGlobal || freeSelf || Function('return this')();
+
+var _Symbol = root.Symbol;
+
+var objectProto$1 = Object.prototype;
+
+var hasOwnProperty$1 = objectProto$1.hasOwnProperty;
+
+var nativeObjectToString = objectProto$1.toString;
+
+var symToStringTag$1 = _Symbol ? _Symbol.toStringTag : undefined;
+
+function getRawTag(value) {
+  var isOwn = hasOwnProperty$1.call(value, symToStringTag$1),
+      tag = value[symToStringTag$1];
+
+  try {
+    value[symToStringTag$1] = undefined;
+    var unmasked = true;
+  } catch (e) {}
+
+  var result = nativeObjectToString.call(value);
+  if (unmasked) {
+    if (isOwn) {
+      value[symToStringTag$1] = tag;
+    } else {
+      delete value[symToStringTag$1];
+    }
   }
   return result;
 }
 
+var objectProto$2 = Object.prototype;
+
+var nativeObjectToString$1 = objectProto$2.toString;
+
+function objectToString(value) {
+  return nativeObjectToString$1.call(value);
+}
+
+var nullTag = '[object Null]';
+var undefinedTag = '[object Undefined]';
+
+var symToStringTag = _Symbol ? _Symbol.toStringTag : undefined;
+
+function baseGetTag(value) {
+  if (value == null) {
+    return value === undefined ? undefinedTag : nullTag;
+  }
+  return symToStringTag && symToStringTag in Object(value) ? getRawTag(value) : objectToString(value);
+}
+
+function overArg(func, transform) {
+  return function (arg) {
+    return func(transform(arg));
+  };
+}
+
+var getPrototype = overArg(Object.getPrototypeOf, Object);
+
 function isObjectLike(value) {
-  return !!value && (typeof value === 'undefined' ? 'undefined' : _typeof(value)) == 'object';
+  return value != null && (typeof value === 'undefined' ? 'undefined' : _typeof(value)) == 'object';
 }
 
 var objectTag = '[object Object]';
 
+var funcProto = Function.prototype;
 var objectProto = Object.prototype;
 
-var funcToString = Function.prototype.toString;
+var funcToString = funcProto.toString;
 
 var hasOwnProperty = objectProto.hasOwnProperty;
 
 var objectCtorString = funcToString.call(Object);
 
-var objectToString = objectProto.toString;
-
 function isPlainObject(value) {
-  if (!isObjectLike(value) || objectToString.call(value) != objectTag || isHostObject(value)) {
+  if (!isObjectLike(value) || baseGetTag(value) != objectTag) {
     return false;
   }
   var proto = getPrototype(value);
@@ -1629,10 +1703,11 @@ function wrapMapToPropsFunc(mapToProps, methodName) {
       return proxy.dependsOnOwnProps ? proxy.mapToProps(stateOrDispatch, ownProps) : proxy.mapToProps(stateOrDispatch);
     };
 
-    proxy.dependsOnOwnProps = getDependsOnOwnProps(mapToProps);
+    proxy.dependsOnOwnProps = true;
 
     proxy.mapToProps = function detectFactoryAndVerify(stateOrDispatch, ownProps) {
       proxy.mapToProps = mapToProps;
+      proxy.dependsOnOwnProps = getDependsOnOwnProps(mapToProps);
       var props = proxy(stateOrDispatch, ownProps);
 
       if (typeof props === 'function') {
@@ -1686,9 +1761,9 @@ function defaultMergeProps(stateProps, dispatchProps, ownProps) {
 
 function wrapMergePropsFunc(mergeProps) {
   return function initMergePropsProxy(dispatch, _ref) {
-    var displayName = _ref.displayName;
-    var pure = _ref.pure;
-    var areMergedPropsEqual = _ref.areMergedPropsEqual;
+    var displayName = _ref.displayName,
+        pure = _ref.pure,
+        areMergedPropsEqual = _ref.areMergedPropsEqual;
 
     var hasRunOnce = false;
     var mergedProps = void 0;
@@ -1745,9 +1820,9 @@ function impureFinalPropsSelectorFactory(mapStateToProps, mapDispatchToProps, me
 }
 
 function pureFinalPropsSelectorFactory(mapStateToProps, mapDispatchToProps, mergeProps, dispatch, _ref) {
-  var areStatesEqual = _ref.areStatesEqual;
-  var areOwnPropsEqual = _ref.areOwnPropsEqual;
-  var areStatePropsEqual = _ref.areStatePropsEqual;
+  var areStatesEqual = _ref.areStatesEqual,
+      areOwnPropsEqual = _ref.areOwnPropsEqual,
+      areStatePropsEqual = _ref.areStatePropsEqual;
 
   var hasRunAtLeastOnce = false;
   var state = void 0;
@@ -1812,10 +1887,10 @@ function pureFinalPropsSelectorFactory(mapStateToProps, mapDispatchToProps, merg
 }
 
 function finalPropsSelectorFactory(dispatch, _ref2) {
-  var initMapStateToProps = _ref2.initMapStateToProps;
-  var initMapDispatchToProps = _ref2.initMapDispatchToProps;
-  var initMergeProps = _ref2.initMergeProps;
-  var options$$1 = objectWithoutProperties(_ref2, ['initMapStateToProps', 'initMapDispatchToProps', 'initMergeProps']);
+  var initMapStateToProps = _ref2.initMapStateToProps,
+      initMapDispatchToProps = _ref2.initMapDispatchToProps,
+      initMergeProps = _ref2.initMergeProps,
+      options$$1 = objectWithoutProperties(_ref2, ['initMapStateToProps', 'initMapDispatchToProps', 'initMergeProps']);
 
   var mapStateToProps = initMapStateToProps(dispatch, options$$1);
   var mapDispatchToProps = initMapDispatchToProps(dispatch, options$$1);
@@ -1846,33 +1921,32 @@ function strictEqual(a, b) {
 }
 
 function createConnect() {
-  var _ref = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-
-  var _ref$connectHOC = _ref.connectHOC;
-  var connectHOC = _ref$connectHOC === undefined ? connectAdvanced : _ref$connectHOC;
-  var _ref$mapStateToPropsF = _ref.mapStateToPropsFactories;
-  var mapStateToPropsFactories = _ref$mapStateToPropsF === undefined ? defaultMapStateToPropsFactories : _ref$mapStateToPropsF;
-  var _ref$mapDispatchToPro = _ref.mapDispatchToPropsFactories;
-  var mapDispatchToPropsFactories = _ref$mapDispatchToPro === undefined ? defaultMapDispatchToPropsFactories : _ref$mapDispatchToPro;
-  var _ref$mergePropsFactor = _ref.mergePropsFactories;
-  var mergePropsFactories = _ref$mergePropsFactor === undefined ? defaultMergePropsFactories : _ref$mergePropsFactor;
-  var _ref$selectorFactory = _ref.selectorFactory;
-  var selectorFactory = _ref$selectorFactory === undefined ? finalPropsSelectorFactory : _ref$selectorFactory;
+  var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+      _ref$connectHOC = _ref.connectHOC,
+      connectHOC = _ref$connectHOC === undefined ? connectAdvanced : _ref$connectHOC,
+      _ref$mapStateToPropsF = _ref.mapStateToPropsFactories,
+      mapStateToPropsFactories = _ref$mapStateToPropsF === undefined ? defaultMapStateToPropsFactories : _ref$mapStateToPropsF,
+      _ref$mapDispatchToPro = _ref.mapDispatchToPropsFactories,
+      mapDispatchToPropsFactories = _ref$mapDispatchToPro === undefined ? defaultMapDispatchToPropsFactories : _ref$mapDispatchToPro,
+      _ref$mergePropsFactor = _ref.mergePropsFactories,
+      mergePropsFactories = _ref$mergePropsFactor === undefined ? defaultMergePropsFactories : _ref$mergePropsFactor,
+      _ref$selectorFactory = _ref.selectorFactory,
+      selectorFactory = _ref$selectorFactory === undefined ? finalPropsSelectorFactory : _ref$selectorFactory;
 
   return function connect(mapStateToProps, mapDispatchToProps, mergeProps) {
-    var _ref2 = arguments.length <= 3 || arguments[3] === undefined ? {} : arguments[3];
+    var _ref2 = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
 
-    var _ref2$pure = _ref2.pure;
-    var pure = _ref2$pure === undefined ? true : _ref2$pure;
-    var _ref2$areStatesEqual = _ref2.areStatesEqual;
-    var areStatesEqual = _ref2$areStatesEqual === undefined ? strictEqual : _ref2$areStatesEqual;
-    var _ref2$areOwnPropsEqua = _ref2.areOwnPropsEqual;
-    var areOwnPropsEqual = _ref2$areOwnPropsEqua === undefined ? shallowEqual : _ref2$areOwnPropsEqua;
-    var _ref2$areStatePropsEq = _ref2.areStatePropsEqual;
-    var areStatePropsEqual = _ref2$areStatePropsEq === undefined ? shallowEqual : _ref2$areStatePropsEq;
-    var _ref2$areMergedPropsE = _ref2.areMergedPropsEqual;
-    var areMergedPropsEqual = _ref2$areMergedPropsE === undefined ? shallowEqual : _ref2$areMergedPropsE;
-    var extraOptions = objectWithoutProperties(_ref2, ['pure', 'areStatesEqual', 'areOwnPropsEqual', 'areStatePropsEqual', 'areMergedPropsEqual']);
+    var _ref2$pure = _ref2.pure,
+        pure = _ref2$pure === undefined ? true : _ref2$pure,
+        _ref2$areStatesEqual = _ref2.areStatesEqual,
+        areStatesEqual = _ref2$areStatesEqual === undefined ? strictEqual : _ref2$areStatesEqual,
+        _ref2$areOwnPropsEqua = _ref2.areOwnPropsEqual,
+        areOwnPropsEqual = _ref2$areOwnPropsEqua === undefined ? shallowEqual : _ref2$areOwnPropsEqua,
+        _ref2$areStatePropsEq = _ref2.areStatePropsEqual,
+        areStatePropsEqual = _ref2$areStatePropsEq === undefined ? shallowEqual : _ref2$areStatePropsEq,
+        _ref2$areMergedPropsE = _ref2.areMergedPropsEqual,
+        areMergedPropsEqual = _ref2$areMergedPropsE === undefined ? shallowEqual : _ref2$areMergedPropsE,
+        extraOptions = objectWithoutProperties(_ref2, ['pure', 'areStatesEqual', 'areOwnPropsEqual', 'areStatePropsEqual', 'areMergedPropsEqual']);
 
     var initMapStateToProps = match(mapStateToProps, mapStateToPropsFactories, 'mapStateToProps');
     var initMapDispatchToProps = match(mapDispatchToProps, mapDispatchToPropsFactories, 'mapDispatchToProps');
@@ -1900,13 +1974,7 @@ function createConnect() {
   };
 }
 
-var connect$1 = createConnect();
-
-var lib$1 = {
-  Provider: Provider,
-  connect: connect$1,
-  connectAdvanced: connectAdvanced
-};
+var connect = createConnect();
 
 const formatDistance = distance => {
   if (distance < 1000) {
@@ -1923,6 +1991,10 @@ const weekday = timestamp => {
   return format.format(date);
 };
 
+const compareNumbers = (a, b) => {
+  return a - b;
+};
+
 const filterLocations = (locations, search) => {
   const match = (location, search) => location.name.toLowerCase().indexOf(search);
   const normalizedSearch = search.trim().toLowerCase();
@@ -1931,7 +2003,7 @@ const filterLocations = (locations, search) => {
     return locations;
   }
 
-  return locations.map(location => ({ location, match: match(location, normalizedSearch) })).filter(({ match }) => match > -1).sort((a, b) => a.match > b.match).map(({ location }) => location);
+  return locations.map(location => ({ location, match: match(location, normalizedSearch) })).filter(({ match }) => match > -1).sort((a, b) => compareNumbers(a.match, b.match)).map(({ location }) => location);
 };
 
 function getCurrentPosition() {
@@ -1950,20 +2022,18 @@ const Distance = ({ distance }) => {
   );
 };
 
-const Location = ({ location, onSelect }) => {
+const Location = ({ location, onSelect, isActive }) => {
   const onClick = () => {
     onSelect(location.id);
   };
 
   const onKeyPress = event => {
-    if (event.key === 'Enter') {
-      onSelect(location.id);
-    }
+    if (event.key === 'Enter') onSelect(location.id);
   };
 
   return h(
     'li',
-    { 'class': 'location' },
+    { 'class': isActive ? 'location -active' : 'location' },
     h(
       'a',
       { onClick: onClick, onKeyPress: onKeyPress, tabIndex: '0' },
@@ -1992,7 +2062,7 @@ class Locations extends Component {
     window.removeEventListener('resize', this._updateMaxLocations);
   }
 
-  render({ onSelectLocation, locations }, { maxLocations }) {
+  render({ onSelectLocation, locations, activeLocation }, { maxLocations }) {
     const locationsCount = locations.length;
 
     return h(
@@ -2001,7 +2071,7 @@ class Locations extends Component {
       h(
         'ul',
         { 'class': 'locations-list' },
-        locations.slice(0, maxLocations).map(location => h(Location, { location: location, onSelect: onSelectLocation }))
+        locations.slice(0, maxLocations).map(location => h(Location, { location: location, isActive: location.id === activeLocation, onSelect: onSelectLocation }))
       ),
       h(
         'footer',
@@ -2052,24 +2122,24 @@ var objectWithoutProperties$1 = function (obj, keys) {
 
 const Menu = ({ menu }) => {
   return h(
-    'section',
-    { 'class': 'menu-item' },
+    "section",
+    { "class": "menu-item" },
     h(
-      'h2',
+      "h2",
       null,
       menu.title
     ),
     h(
-      'h3',
+      "h3",
       null,
-      'CHF ',
+      "CHF ",
       menu.price
     ),
     h(
-      'ul',
-      { 'class': 'dishes' },
+      "ul",
+      { "class": "dishes" },
       menu.menu.map(dish => h(
-        'li',
+        "li",
         null,
         dish
       ))
@@ -2079,29 +2149,29 @@ const Menu = ({ menu }) => {
 
 const Day = ({ day, timestamp, onClick, active }) => {
   return h(
-    'li',
-    { 'class': `item${active ? ' -active' : ''}`, onClick: () => onClick(day) },
+    "li",
+    { "class": `item${active ? ' -active' : ''}`, onClick: () => onClick(day) },
     weekday(timestamp)
   );
 };
 
 const Location$1 = ({ location, menus, days, onSelectDay }) => {
   return h(
-    'article',
+    "article",
     null,
     h(
-      'h1',
+      "h1",
       null,
       location.name
     ),
     h(
-      'ul',
-      { 'class': 'weekday-list' },
+      "ul",
+      { "class": "weekday-list" },
       days.map(day => h(Day, _extends$2({ onClick: onSelectDay }, day)))
     ),
     h(
-      'div',
-      { 'class': 'menu-items' },
+      "div",
+      { "class": "menu-items" },
       menus.map(menu => h(Menu, { menu: menu }))
     )
   );
@@ -2115,14 +2185,13 @@ function Search({ onSearch }) {
 }
 
 const API_BASE = 'https://themachine.jeremystucki.com/coop/api/v2';
-
 const encode = encodeURIComponent;
 
 function fetchMenusFromApi(location) {
   return fetch(`${API_BASE}/locations/${encode(location)}/menus`).then(resp => resp.json()).then(({ results }) => {
     const byDay = new Map();
 
-    results.sort((a, b) => a.timestamp > b.timestamp).forEach(menu => {
+    results.sort((a, b) => compareNumbers(a.timestamp, b.timestamp)).forEach(menu => {
       const timestamp = menu.timestamp;
 
       if (byDay.has(timestamp)) {
@@ -2197,8 +2266,6 @@ const fetchLocations = () => {
   };
 };
 
-const { connect } = lib$1;
-
 const mapDispatchToProps = dispatch => {
   return {
     onSearch: value => dispatch(search(value)),
@@ -2231,7 +2298,7 @@ const days = (menus, day) => {
     return [];
   }
 
-  return menus.map(({ timestamp }, i) => ({ day: i, timestamp, active: i === day })).sort((a, b) => a.timestamp > b.timestamp);
+  return menus.map(({ timestamp }, i) => ({ day: i, timestamp, active: i === day })).sort((a, b) => compareNumbers(a, b));
 };
 
 const mapStateToProps = ({ locations, location, menus, day, search: search$$1 }) => {
@@ -2254,12 +2321,29 @@ const App = ({ locations, menus, location, days, onSearch, onSelectLocation, onS
         'nav',
         { 'class': 'nav' },
         h(Search, { onSearch: onSearch }),
-        h(Locations, { locations: locations, onSelectLocation: onSelectLocation })
+        h(Locations, { locations: locations, activeLocation: location && location.id, onSelectLocation: onSelectLocation })
       ),
       h(
         'main',
         { 'class': 'content' },
         location && h(Location$1, { location: location, menus: menus, days: days, onSelectDay: onSelectDay })
+      ),
+      h(
+        'footer',
+        { 'class': 'footer' },
+        'Created by ',
+        h(
+          'a',
+          { 'class': 'default-link', href: 'https://github.com/bash' },
+          'bash'
+        ),
+        '. Data source: ',
+        h(
+          'a',
+          { 'class': 'default-link', href: 'https://github.com/STJEREM/coop' },
+          'STJEREM/coop'
+        ),
+        '.'
       )
     )
   );
@@ -2316,7 +2400,36 @@ function reduce(state = initialState, _ref) {
 
 const store = createStore(reduce, applyMiddleware(thunk));
 
+const updateHash = ({ location }) => {
+  if (location != null) window.location.hash = `#${location}`;
+};
+
+const updateLocation = (store, newLocation) => {
+  const { location } = store.getState();
+
+  if (location === newLocation) return;
+
+  store.dispatch(selectLocation(newLocation));
+  store.dispatch(fetchMenus(newLocation));
+};
+
+const getLocationFromHash = () => {
+  return Number.parseInt(window.location.hash.substr(1)) || null;
+};
+
+const registerListeners = store => {
+  store.subscribe(() => updateHash(store.getState()));
+  window.addEventListener('hashchange', () => updateLocation(store, getLocationFromHash()));
+};
+
+const setLocationFromHash = store => {
+  updateLocation(store, getLocationFromHash());
+};
+
 store.dispatch(fetchLocations());
+
+setLocationFromHash(store);
+registerListeners(store);
 
 render(h(ConnectedApp, { store: store }), document.body);
 
