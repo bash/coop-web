@@ -58,7 +58,7 @@ const App = ({ locations, menus, location, days, onSearch, onSelectLocation, onS
       <div class="app-layout">
         <nav class="nav">
           <Search onSearch={onSearch}/>
-          <Locations locations={locations} onSelectLocation={onSelectLocation}/>
+          <Locations locations={locations} activeLocation={location && location.id} onSelectLocation={onSelectLocation}/>
         </nav>
         <main class="content">
           { location && <Location location={location} menus={menus} days={days} onSelectDay={onSelectDay}/> }

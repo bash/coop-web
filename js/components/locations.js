@@ -11,19 +11,17 @@ const Distance = ({ distance }) => {
   )
 }
 
-const Location = ({ location, onSelect }) => {
+const Location = ({ location, onSelect, isActive }) => {
   const onClick = () => {
     onSelect(location.id)
   }
 
   const onKeyPress = (event) => {
-    if (event.key === 'Enter') {
-      onSelect(location.id)
-    }
+    if (event.key === 'Enter') onSelect(location.id)
   }
 
   return (
-    <li class="location">
+    <li class={isActive ? 'location -active' : 'location'}>
       <a onClick={onClick} onKeyPress={onKeyPress} tabIndex="0">
         { location.name }
         { location.distance && <Distance distance={location.distance}/> }
@@ -51,7 +49,7 @@ export class Locations extends Component {
     window.removeEventListener('resize', this._updateMaxLocations)
   }
 
-  render ({ onSelectLocation, locations }, { maxLocations }) {
+  render ({ onSelectLocation, locations, activeLocation }, { maxLocations }) {
     const locationsCount = locations.length
 
     return (
@@ -59,7 +57,7 @@ export class Locations extends Component {
         <ul class="locations-list">
           { locations
             .slice(0, maxLocations)
-            .map((location) => <Location location={location} onSelect={onSelectLocation}/>) }
+            .map((location) => <Location location={location} isActive={location.id === activeLocation} onSelect={onSelectLocation}/>) }
         </ul>
         <footer class="locations-hidden">
           { locationsCount > maxLocations ? `${locationsCount - maxLocations} locations hidden` : '' }
