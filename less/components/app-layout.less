@@ -1,12 +1,19 @@
 .app-layout {
   --nav-margin-top: 96px;
-  --app-layout-columns: 300px auto;
 
   display: grid;
-  grid-template-columns: var(--app-layout-columns);
+  grid-template-columns: 300px auto auto auto;
+  grid-template-rows: auto min-content;
+  grid-template-areas:
+    "sidebar content"
+    ". footer";
+
   grid-gap: 20px;
+  height: 100%;
+  width: 100%;
 
   > .nav {
+    grid-area: sidebar;
     margin-top: var(--nav-margin-top);
   }
 
@@ -14,8 +21,24 @@
     margin-bottom: 10px;
   }
 
+  > .content {
+    grid-area: content;
+  }
+
+  > .footer {
+    grid-area: footer;
+    column-span: 2;
+    font-size: 14px;
+  }
+
   @media (max-width: @small-screen-max) {
     --nav-margin-top: 0px;
-    --app-layout-columns: auto;
+
+    grid-template-columns: auto;
+    grid-template-rows: min-content auto min-content;
+    grid-template-areas:
+      "sidebar"
+      "content"
+      "footer";
   }
 }

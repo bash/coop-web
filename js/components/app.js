@@ -63,6 +63,10 @@ const App = ({ locations, menus, location, days, onSearch, onSelectLocation, onS
         <main class="content">
           { location && <Location location={location} menus={menus} days={days} onSelectDay={onSelectDay}/> }
         </main>
+        <footer class="footer">
+          Created by <a class="default-link" href="https://github.com/bash">bash</a>.
+          Data source: <a class="default-link" href="https://github.com/STJEREM/coop">STJEREM/coop</a>.
+        </footer>
       </div>
     </div>
   )
