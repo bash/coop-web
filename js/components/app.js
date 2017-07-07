@@ -4,7 +4,7 @@ import { Locations } from './locations'
 import { Location } from './location'
 import { Search } from './search'
 import { fetchMenus, search, selectLocation, selectDay } from '../actions'
-import { filterLocations } from '../utils'
+import { compareNumbers, filterLocations } from '../utils'
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -40,7 +40,7 @@ const days = (menus, day) => {
 
   return menus
     .map(({ timestamp }, i) => ({ day: i, timestamp, active: (i === day) }))
-    .sort((a, b) => a.timestamp > b.timestamp)
+    .sort((a, b) => compareNumbers(a, b))
 }
 
 const mapStateToProps = ({ locations, location, menus, day, search }) => {

@@ -1,9 +1,6 @@
-/**
- *
- * @type {string}
- */
-const API_BASE = 'https://themachine.jeremystucki.com/coop/api/v2'
+import { compareNumbers } from './utils'
 
+const API_BASE = 'https://themachine.jeremystucki.com/coop/api/v2'
 const encode = encodeURIComponent
 
 /**
@@ -19,7 +16,7 @@ export function fetchMenusFromApi (location) {
       const byDay = new Map()
 
       results
-        .sort((a, b) => a.timestamp > b.timestamp)
+        .sort((a, b) => compareNumbers(a.timestamp, b.timestamp))
         .forEach((menu) => {
           const timestamp = menu.timestamp
 

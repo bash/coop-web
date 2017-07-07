@@ -13,6 +13,11 @@ export const weekday = (timestamp) => {
   return format.format(date)
 }
 
+/** I really need the spaceship operator (<=>) */
+export const compareNumbers = (a, b) => {
+  return a - b;
+}
+
 export const filterLocations = (locations, search) => {
   const match = (location, search) => location.name.toLowerCase().indexOf(search)
   const normalizedSearch = search.trim().toLowerCase()
@@ -24,7 +29,7 @@ export const filterLocations = (locations, search) => {
   return locations
     .map((location) => ({ location, match: match(location, normalizedSearch) }))
     .filter(({ match }) => match > -1)
-    .sort((a, b) => a.match > b.match)
+    .sort((a, b) => compareNumbers(a.match, b.match))
     .map(({ location }) => location)
 }
 
