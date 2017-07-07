@@ -4,13 +4,9 @@
   display: grid;
   grid-template-columns: 300px auto auto auto;
   grid-template-rows: auto min-content;
-  grid-template-areas:
-    "sidebar content"
-    ". footer";
+  grid-template-areas: "sidebar content";
 
   grid-gap: 20px;
-  height: 100%;
-  width: 100%;
 
   > .nav {
     grid-area: sidebar;
@@ -25,20 +21,13 @@
     grid-area: content;
   }
 
-  > .footer {
-    grid-area: footer;
-    column-span: 2;
-    font-size: 14px;
-  }
-
   @media (max-width: @small-screen-max) {
     --nav-margin-top: 0px;
 
     grid-template-columns: auto;
-    grid-template-rows: min-content auto min-content;
+    grid-template-rows: auto;
     grid-template-areas:
       "sidebar"
-      "content"
-      "footer";
+      "content";
   }
 }
