@@ -2321,29 +2321,29 @@ const App = ({ locations, menus, location, days, onSearch, onSelectLocation, onS
         'nav',
         { 'class': 'nav' },
         h(Search, { onSearch: onSearch }),
-        h(Locations, { locations: locations, activeLocation: location && location.id, onSelectLocation: onSelectLocation })
+        h(Locations, { locations: locations, activeLocation: location && location.id, onSelectLocation: onSelectLocation }),
+        h(
+          'footer',
+          { 'class': 'page-footer' },
+          'Created by ',
+          h(
+            'a',
+            { 'class': 'default-link', href: 'https://github.com/bash' },
+            'bash'
+          ),
+          '. Data source: ',
+          h(
+            'a',
+            { 'class': 'default-link', href: 'https://github.com/STJEREM/coop' },
+            'STJEREM/coop'
+          ),
+          '.'
+        )
       ),
       h(
         'main',
         { 'class': 'content' },
         location && h(Location$1, { location: location, menus: menus, days: days, onSelectDay: onSelectDay })
-      ),
-      h(
-        'footer',
-        { 'class': 'footer' },
-        'Created by ',
-        h(
-          'a',
-          { 'class': 'default-link', href: 'https://github.com/bash' },
-          'bash'
-        ),
-        '. Data source: ',
-        h(
-          'a',
-          { 'class': 'default-link', href: 'https://github.com/STJEREM/coop' },
-          'STJEREM/coop'
-        ),
-        '.'
       )
     )
   );
