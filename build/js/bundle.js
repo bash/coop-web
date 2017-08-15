@@ -2022,10 +2022,8 @@ const Distance = ({ distance }) => {
   );
 };
 
-const Location = ({ location, onSelect, isActive }) => {
-  const onClick = () => {
-    onSelect(location.id);
-  };
+const LocationItem = ({ location, onSelect, isActive }) => {
+  const onClick = () => onSelect(location.id);
 
   const onKeyPress = event => {
     if (event.key === 'Enter') onSelect(location.id);
@@ -2071,7 +2069,7 @@ class Locations extends Component {
       h(
         'ul',
         { 'class': 'locations-list' },
-        locations.slice(0, maxLocations).map(location => h(Location, { location: location, isActive: location.id === activeLocation, onSelect: onSelectLocation }))
+        locations.slice(0, maxLocations).map(location => h(LocationItem, { location: location, isActive: location.id === activeLocation, onSelect: onSelectLocation }))
       ),
       h(
         'footer',
@@ -2120,26 +2118,26 @@ var objectWithoutProperties$1 = function (obj, keys) {
   return target;
 };
 
-const Menu = ({ menu }) => {
+const MenuItem = ({ menu }) => {
   return h(
-    "section",
-    { "class": "menu-item" },
+    'section',
+    { 'class': 'menu-item' },
     h(
-      "h2",
+      'h2',
       null,
       menu.title
     ),
     h(
-      "h3",
+      'h3',
       null,
-      "CHF ",
+      'CHF ',
       menu.price
     ),
     h(
-      "ul",
-      { "class": "dishes" },
+      'ul',
+      { 'class': 'dishes' },
       menu.menu.map(dish => h(
-        "li",
+        'li',
         null,
         dish
       ))
@@ -2147,32 +2145,32 @@ const Menu = ({ menu }) => {
   );
 };
 
-const Day = ({ day, timestamp, onClick, active }) => {
+const DayItem = ({ day, timestamp, onClick, active }) => {
   return h(
-    "li",
-    { "class": `item${active ? ' -active' : ''}`, onClick: () => onClick(day) },
+    'li',
+    { 'class': `item${active ? ' -active' : ''}`, onClick: () => onClick(day) },
     weekday(timestamp)
   );
 };
 
-const Location$1 = ({ location, menus, days, onSelectDay }) => {
+const Location = ({ location, menus, days, onSelectDay }) => {
   return h(
-    "article",
+    'article',
     null,
     h(
-      "h1",
+      'h1',
       null,
       location.name
     ),
     h(
-      "ul",
-      { "class": "weekday-list" },
-      days.map(day => h(Day, _extends$2({ onClick: onSelectDay }, day)))
+      'ul',
+      { 'class': 'weekday-list' },
+      days.map(day => h(DayItem, _extends$2({ onClick: onSelectDay }, day)))
     ),
     h(
-      "div",
-      { "class": "menu-items" },
-      menus.map(menu => h(Menu, { menu: menu }))
+      'div',
+      { 'class': 'menu-items' },
+      menus.map(menu => h(MenuItem, { menu: menu }))
     )
   );
 };
@@ -2187,32 +2185,31 @@ function Search({ onSearch }) {
 const API_BASE = 'https://themachine.jeremystucki.com/coop/api/v2';
 const encode = encodeURIComponent;
 
-function fetchMenusFromApi(location) {
-  return fetch(`${API_BASE}/locations/${encode(location)}/menus`).then(resp => resp.json()).then(({ results }) => {
-    const byDay = new Map();
+function groupByDay(menus) {
+  const byDay = new Map();
 
-    results.sort((a, b) => compareNumbers(a.timestamp, b.timestamp)).forEach(menu => {
-      const timestamp = menu.timestamp;
+  menus.sort((a, b) => compareNumbers(a.timestamp, b.timestamp)).forEach(menu => {
+    const { timestamp } = menu;
+    const menus = byDay.get(timestamp) || [];
 
-      if (byDay.has(timestamp)) {
-        byDay.get(timestamp).push(menu);
-      } else {
-        byDay.set(timestamp, [menu]);
-      }
-    });
-
-    return Array.from(byDay).map(([timestamp, menus]) => ({ timestamp, menus }));
+    byDay.set(timestamp, [...menus, menu]);
   });
+
+  return Array.from(byDay).map(entry => ({ timestamp: entry[0], menus: entry[1] }));
+}
+
+function fetchMenusFromApi(location) {
+  return window.fetch(`${API_BASE}/locations/${encode(location.toString())}/menus`).then(resp => resp.json()).then(({ results }) => groupByDay(results));
 }
 
 function fetchLocationsFromApi() {
-  return fetch(`${API_BASE}/locations`).then(resp => resp.json()).then(({ results }) => {
+  return window.fetch(`${API_BASE}/locations`).then(resp => resp.json()).then(({ results }) => {
     return results.sort((a, b) => a.name.localeCompare(b.name));
   });
 }
 
 function fetchLocationsByPositionFromApi(latitude, longitude) {
-  return fetch(`${API_BASE}/locations?latitude=${encode(latitude)}&longitude=${encode(longitude)}`).then(resp => resp.json()).then(({ results }) => results);
+  return window.fetch(`${API_BASE}/locations?latitude=${encode(latitude.toString())}&longitude=${encode(longitude.toString())}`).then(resp => resp.json()).then(({ results }) => results);
 }
 
 const SET_LOCATIONS = 'SET_LOCATIONS';
@@ -2343,7 +2340,7 @@ const App = ({ locations, menus, location, days, onSearch, onSelectLocation, onS
       h(
         'main',
         { 'class': 'content' },
-        location && h(Location$1, { location: location, menus: menus, days: days, onSelectDay: onSelectDay })
+        location && h(Location, { location: location, menus: menus, days: days, onSelectDay: onSelectDay })
       )
     )
   );
@@ -2408,6 +2405,7 @@ const updateLocation = (store, newLocation) => {
   const { location } = store.getState();
 
   if (location === newLocation) return;
+  if (newLocation == null) return;
 
   store.dispatch(selectLocation(newLocation));
   store.dispatch(fetchMenus(newLocation));
