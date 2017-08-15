@@ -1,8 +1,8 @@
 {
   "comments": false,
   "presets": [
+    "flow",
     [
-      "flow",
       "env",
       {
         "modules": false,
