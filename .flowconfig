@@ -1,0 +1,11 @@
+[ignore]
+<PROJECT_ROOT>/node_modules/preact/.*\.flow
+
+[include]
+
+[libs]
+
+[lints]
+
+[options]
+emoji=true

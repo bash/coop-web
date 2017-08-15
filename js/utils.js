@@ -1,4 +1,8 @@
-export const formatDistance = (distance) => {
+// @flow
+
+import type { Location } from './types'
+
+export const formatDistance = (distance: number) => {
   if (distance < 1000) {
     return `${Math.round(distance)}m`
   }
@@ -6,7 +10,7 @@ export const formatDistance = (distance) => {
   return `${Math.round(distance / 10) / 100}km`
 }
 
-export const weekday = (timestamp) => {
+export const weekday = (timestamp: number) => {
   const format = new Intl.DateTimeFormat(navigator.languages, { weekday: 'long' })
   const date = new Date(timestamp * 1000)
 
@@ -14,11 +18,11 @@ export const weekday = (timestamp) => {
 }
 
 /** I really need the spaceship operator (<=>) */
-export const compareNumbers = (a, b) => {
+export const compareNumbers = (a: number, b: number) => {
   return a - b;
 }
 
-export const filterLocations = (locations, search) => {
+export const filterLocations = (locations: Array<Location>, search: string) => {
   const match = (location, search) => location.name.toLowerCase().indexOf(search)
   const normalizedSearch = search.trim().toLowerCase()
 
@@ -33,7 +37,7 @@ export const filterLocations = (locations, search) => {
     .map(({ location }) => location)
 }
 
-export function getCurrentPosition () {
+export function getCurrentPosition (): Promise<Position> {
   return new Promise((resolve, reject) => {
     navigator.geolocation.getCurrentPosition(resolve, reject)
   })

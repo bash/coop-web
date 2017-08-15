@@ -1,56 +1,44 @@
+// @flow
+
 import { compareNumbers } from './utils'
+import type { MenuGroup, Menu } from './types'
 
 const API_BASE = 'https://themachine.jeremystucki.com/coop/api/v2'
 const encode = encodeURIComponent
 
-/**
- *
- * @param {string} location
- * @returns {Promise}
- */
-export function fetchMenusFromApi (location) {
-  return fetch(`${API_BASE}/locations/${encode(location)}/menus`)
-    .then((resp) => resp.json())
-    .then(({ results }) => {
-      // TODO: we need a cleaner way to group by day
-      const byDay = new Map()
+function groupByDay(menus: Array<Menu>): Array<MenuGroup> {
+  // TODO: we need a cleaner way to group by day
+  const byDay: Map<number, Array<Menu>> = new Map()
 
-      results
-        .sort((a, b) => compareNumbers(a.timestamp, b.timestamp))
-        .forEach((menu) => {
-          const timestamp = menu.timestamp
+  menus
+    .sort((a, b) => compareNumbers(a.timestamp, b.timestamp))
+    .forEach((menu: Menu) => {
+      const { timestamp } = menu
+      const menus = byDay.get(timestamp) || []
 
-          if (byDay.has(timestamp)) {
-            byDay.get(timestamp).push(menu)
-          } else {
-            byDay.set(timestamp, [menu])
-          }
-        })
-
-      return Array.from(byDay).map(([timestamp, menus]) => ({ timestamp, menus }))
+      byDay.set(timestamp, [...menus, menu])
     })
+
+  return Array.from(byDay)
+              .map((entry) => ({ timestamp: entry[0], menus: entry[1] }))
 }
 
-/**
- *
- * @returns {Promise}
- */
+export function fetchMenusFromApi (location: number) {
+  return window.fetch(`${API_BASE}/locations/${encode(location.toString())}/menus`)
+    .then((resp) => resp.json())
+    .then(({ results }) => groupByDay(results))
+}
+
 export function fetchLocationsFromApi () {
-  return fetch(`${API_BASE}/locations`)
+  return window.fetch(`${API_BASE}/locations`)
     .then((resp) => resp.json())
     .then(({ results }) => {
       return results.sort((a, b) => a.name.localeCompare(b.name))
     })
 }
 
-/**
- *
- * @param {number} latitude
- * @param {number} longitude
- * @returns {Promise<Array<{}>>}
- */
-export function fetchLocationsByPositionFromApi (latitude, longitude) {
-  return fetch(`${API_BASE}/locations?latitude=${encode(latitude)}&longitude=${encode(longitude)}`)
+export function fetchLocationsByPositionFromApi (latitude: number, longitude: number) {
+  return window.fetch(`${API_BASE}/locations?latitude=${encode(latitude.toString())}&longitude=${encode(longitude.toString())}`)
     .then((resp) => resp.json())
     .then(({ results }) => results)
 }

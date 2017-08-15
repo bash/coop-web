@@ -1,6 +1,16 @@
-import { weekday } from '../utils'
+// @flow
 
-const Menu = ({ menu }) => {
+import { weekday } from '../utils'
+import type { Location as LocationType, Menu, Day } from '../types'
+
+export type LocationProps = {
+  location: LocationType,
+  menus: Array<Menu>,
+  days: Array<Day>,
+  onSelectDay: (number) => void,
+}
+
+const MenuItem = ({ menu }) => {
   return (
     <section class="menu-item">
       <h2>{menu.title}</h2>
@@ -12,7 +22,7 @@ const Menu = ({ menu }) => {
   )
 }
 
-const Day = ({ day, timestamp, onClick, active }) => {
+const DayItem = ({ day, timestamp, onClick, active }) => {
   return (
     <li class={`item${active ? ' -active' : ''}`} onClick={() => onClick(day)}>
       {weekday(timestamp)}
@@ -20,15 +30,15 @@ const Day = ({ day, timestamp, onClick, active }) => {
   )
 }
 
-export const Location = ({ location, menus, days, onSelectDay }) => {
+export const Location = ({ location, menus, days, onSelectDay }: LocationProps) => {
   return (
     <article>
       <h1>{location.name}</h1>
       <ul class="weekday-list">
-        { days.map((day) => <Day onClick={onSelectDay} {...day} />) }
+        { days.map((day) => <DayItem onClick={onSelectDay} {...day} />) }
       </ul>
       <div class="menu-items">
-        { menus.map((menu) => <Menu menu={ menu }/>)}
+        { menus.map((menu) => <MenuItem menu={ menu }/>)}
       </div>
     </article>
   )

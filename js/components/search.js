@@ -1,4 +1,10 @@
-export function Search ({ onSearch }) {
+// @flow
+
+export type SearchProps = {
+  onSearch: (search: string) => void,
+}
+
+export function Search ({ onSearch }: SearchProps) {
   return (
     <input type="search"
            placeholder="Search"

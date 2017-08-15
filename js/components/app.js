@@ -1,3 +1,5 @@
+// @flow
+
 import { connect } from 'preact-redux'
 
 import { Locations } from './locations'

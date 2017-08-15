@@ -2,6 +2,7 @@
   "comments": false,
   "presets": [
     [
+      "flow",
       "env",
       {
         "modules": false,
