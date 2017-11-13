@@ -2022,7 +2022,7 @@ const Distance = ({ distance }) => {
   );
 };
 
-const LocationItem = ({ location, onSelect, isActive }) => {
+const LocationItem = ({ location, onSelect = () => {}, isActive = false }) => {
   const onClick = () => onSelect(location.id);
 
   const onKeyPress = event => {
@@ -2046,7 +2046,9 @@ class Locations extends Component {
     super();
 
     this._updateMaxLocations = () => {
-      this.setState({ maxLocations: maxLocations() });
+      window.requestAnimationFrame(() => {
+        this.setState({ maxLocations: maxLocations() });
+      });
     };
 
     this.state.maxLocations = maxLocations();
@@ -2060,8 +2062,12 @@ class Locations extends Component {
     window.removeEventListener('resize', this._updateMaxLocations);
   }
 
-  render({ onSelectLocation, locations, activeLocation }, { maxLocations }) {
+  render({ onSelectLocation, locations, activeLocation: activeLocationId }, { maxLocations }) {
     const locationsCount = locations.length;
+
+    const visibleLocations = locations.filter(({ id }) => id !== activeLocationId).slice(0, maxLocations);
+
+    const activeLocation = activeLocationId && locations.find(({ id }) => id === activeLocationId);
 
     return h(
       'div',
@@ -2069,7 +2075,8 @@ class Locations extends Component {
       h(
         'ul',
         { 'class': 'locations-list' },
-        locations.slice(0, maxLocations).map(location => h(LocationItem, { location: location, isActive: location.id === activeLocation, onSelect: onSelectLocation }))
+        activeLocation && h(LocationItem, { location: activeLocation, isActive: true }),
+        visibleLocations.map(location => h(LocationItem, { location: location, onSelect: onSelectLocation }))
       ),
       h(
         'footer',
@@ -2195,7 +2202,7 @@ function groupByDay(menus) {
     byDay.set(timestamp, [...menus, menu]);
   });
 
-  return Array.from(byDay).map(entry => ({ timestamp: entry[0], menus: entry[1] }));
+  return Array.from(byDay).map(([timestamp, menus]) => ({ timestamp, menus }));
 }
 
 function fetchMenusFromApi(location) {
