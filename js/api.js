@@ -20,7 +20,7 @@ function groupByDay(menus: Array<Menu>): Array<MenuGroup> {
     })
 
   return Array.from(byDay)
-              .map((entry) => ({ timestamp: entry[0], menus: entry[1] }))
+              .map(([timestamp, menus]) => ({ timestamp, menus }))
 }
 
 export function fetchMenusFromApi (location: number) {

@@ -50,7 +50,9 @@ export class Locations extends Component<LocationsProps, LocationsState> {
   }
 
   _updateMaxLocations = () => {
-    this.setState({ maxLocations: maxLocations() })
+    window.requestAnimationFrame(() => {
+      this.setState({ maxLocations: maxLocations() })
+    })
   }
 
   componentDidMount () {
