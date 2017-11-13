@@ -11,6 +11,12 @@ export type LocationsProps = {
   activeLocation: LocationId,
 }
 
+type LocationItemProps = {
+  onSelect?: (id: LocationId) => void,
+  location: Location,
+  isActive?: boolean,
+}
+
 type LocationsState = {
   maxLocations: number,
 }
@@ -25,7 +31,7 @@ const Distance = ({ distance }: { distance: number }) => {
   )
 }
 
-const LocationItem = ({ location, onSelect, isActive }) => {
+const LocationItem = ({ location, onSelect = () => {}, isActive = false }: LocationItemProps) => {
   const onClick = () => onSelect(location.id)
 
   const onKeyPress = (event) => {
@@ -63,15 +69,20 @@ export class Locations extends Component<LocationsProps, LocationsState> {
     window.removeEventListener('resize', this._updateMaxLocations)
   }
 
-  render ({ onSelectLocation, locations, activeLocation }: LocationsProps, { maxLocations }: LocationsState) {
+  render ({ onSelectLocation, locations, activeLocation: activeLocationId }: LocationsProps, { maxLocations }: LocationsState) {
     const locationsCount = locations.length
+
+    const visibleLocations = locations
+      .filter(({ id }) => id !== activeLocationId)
+      .slice(0, maxLocations)
+
+    const activeLocation = activeLocationId && locations.find(({ id }) => id === activeLocationId)
 
     return (
       <div>
         <ul class="locations-list">
-          { locations
-            .slice(0, maxLocations)
-            .map((location) => <LocationItem location={location} isActive={location.id === activeLocation} onSelect={onSelectLocation}/>) }
+          { activeLocation && <LocationItem location={activeLocation} isActive={true}/>}
+          { visibleLocations.map((location) => (<LocationItem location={location} onSelect={onSelectLocation}/>)) }
         </ul>
         <footer class="locations-hidden">
           { locationsCount > maxLocations ? `${locationsCount - maxLocations} locations hidden` : '' }
