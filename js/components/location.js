@@ -3,9 +3,12 @@
 import { weekday } from '../utils'
 import type { Location as LocationType, Menu, Day } from '../types'
 
-export type LocationProps = {
+export type RestaurantMenusProps = {
   location: LocationType,
   menus: Array<Menu>,
+}
+
+export type RestaurantWeekdaysProps = {
   days: Array<Day>,
   onSelectDay: (number) => void,
 }
@@ -30,16 +33,18 @@ const DayItem = ({ day, timestamp, onClick, active }) => {
   )
 }
 
-export const Location = ({ location, menus, days, onSelectDay }: LocationProps) => {
+export const RestaurantMenus = ({ location, menus }: RestaurantMenusProps) => {
   return (
-    <article>
-      <h1>{location.name}</h1>
-      <ul class="weekday-list">
-        { days.map((day) => <DayItem onClick={onSelectDay} {...day} />) }
-      </ul>
-      <div class="menu-items">
+    <div class="menu-items">
         { menus.map((menu) => <MenuItem menu={ menu }/>)}
-      </div>
-    </article>
+    </div>
+  )
+}
+
+export const RestaurantWeekdays = ({ days, onSelectDay }: RestaurantWeekdaysProps) => {
+  return (
+    <ul class="weekday-list">
+      { days.map((day) => <DayItem onClick={onSelectDay} {...day} />) }
+    </ul>
   )
 }

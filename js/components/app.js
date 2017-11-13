@@ -3,8 +3,9 @@
 import { connect } from 'preact-redux'
 
 import { Locations } from './locations'
-import { Location } from './location'
+import { RestaurantMenus, RestaurantWeekdays } from './location'
 import { Search } from './search'
+import { Footer } from './footer'
 import { fetchMenus, search, selectLocation, selectDay } from '../actions'
 import { compareNumbers, filterLocations } from '../utils'
 
@@ -58,16 +59,18 @@ const App = ({ locations, menus, location, days, onSearch, onSelectLocation, onS
   return (
     <div class="page-content">
       <div class="app-layout">
-        <nav class="nav">
+        <nav class="locations">
           <Search onSearch={onSearch}/>
           <Locations locations={locations} activeLocation={location && location.id} onSelectLocation={onSelectLocation}/>
-          <footer class="page-footer">
-            Created by <a class="default-link" href="https://github.com/bash">bash</a>.
-            Data source: <a class="default-link" href="https://github.com/STJEREM/coop">STJEREM/coop</a>.
-          </footer>
         </nav>
-        <main class="content">
-          { location && <Location location={location} menus={menus} days={days} onSelectDay={onSelectDay}/> }
+        <nav class="weekdays">
+          { location && <RestaurantWeekdays days={days} onSelectDay={onSelectDay} /> }
+        </nav>
+        <footer class="footer">
+          <Footer/>
+        </footer>
+        <main class="menus">
+          { location && <RestaurantMenus location={location} menus={menus} /> }
         </main>
       </div>
     </div>

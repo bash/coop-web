@@ -72,9 +72,7 @@ export class Locations extends Component<LocationsProps, LocationsState> {
   render ({ onSelectLocation, locations, activeLocation: activeLocationId }: LocationsProps, { maxLocations }: LocationsState) {
     const locationsCount = locations.length
 
-    const visibleLocations = locations
-      .filter(({ id }) => id !== activeLocationId)
-      .slice(0, maxLocations)
+    const visibleLocations = locations.slice(0, maxLocations)
 
     const activeLocation = activeLocationId && locations.find(({ id }) => id === activeLocationId)
 
