@@ -2065,7 +2065,7 @@ class Locations extends Component {
   render({ onSelectLocation, locations, activeLocation: activeLocationId }, { maxLocations }) {
     const locationsCount = locations.length;
 
-    const visibleLocations = locations.filter(({ id }) => id !== activeLocationId).slice(0, maxLocations);
+    const visibleLocations = locations.slice(0, maxLocations);
 
     const activeLocation = activeLocationId && locations.find(({ id }) => id === activeLocationId);
 
@@ -2160,25 +2160,19 @@ const DayItem = ({ day, timestamp, onClick, active }) => {
   );
 };
 
-const Location = ({ location, menus, days, onSelectDay }) => {
+const RestaurantMenus = ({ location, menus }) => {
   return h(
-    'article',
-    null,
-    h(
-      'h1',
-      null,
-      location.name
-    ),
-    h(
-      'ul',
-      { 'class': 'weekday-list' },
-      days.map(day => h(DayItem, _extends$2({ onClick: onSelectDay }, day)))
-    ),
-    h(
-      'div',
-      { 'class': 'menu-items' },
-      menus.map(menu => h(MenuItem, { menu: menu }))
-    )
+    'div',
+    { 'class': 'menu-items' },
+    menus.map(menu => h(MenuItem, { menu: menu }))
+  );
+};
+
+const RestaurantWeekdays = ({ days, onSelectDay }) => {
+  return h(
+    'ul',
+    { 'class': 'weekday-list' },
+    days.map(day => h(DayItem, _extends$2({ onClick: onSelectDay }, day)))
   );
 };
 
@@ -2188,6 +2182,26 @@ function Search({ onSearch }) {
     onInput: event => onSearch(event.target.value),
     "class": "locations-search" });
 }
+
+const Footer = () => {
+    return h(
+        "div",
+        { "class": "page-footer" },
+        "Created by ",
+        h(
+            "a",
+            { "class": "default-link", href: "https://www.rubys.ninja" },
+            "Ruben Schmidmeister"
+        ),
+        ". Data source: ",
+        h(
+            "a",
+            { "class": "default-link", href: "https://github.com/STJEREM/coop" },
+            "STJEREM/coop"
+        ),
+        "."
+    );
+};
 
 const API_BASE = 'https://themachine.jeremystucki.com/coop/api/v2';
 const encode = encodeURIComponent;
@@ -2323,31 +2337,24 @@ const App = ({ locations, menus, location, days, onSearch, onSelectLocation, onS
       { 'class': 'app-layout' },
       h(
         'nav',
-        { 'class': 'nav' },
+        { 'class': 'locations' },
         h(Search, { onSearch: onSearch }),
-        h(Locations, { locations: locations, activeLocation: location && location.id, onSelectLocation: onSelectLocation }),
-        h(
-          'footer',
-          { 'class': 'page-footer' },
-          'Created by ',
-          h(
-            'a',
-            { 'class': 'default-link', href: 'https://github.com/bash' },
-            'bash'
-          ),
-          '. Data source: ',
-          h(
-            'a',
-            { 'class': 'default-link', href: 'https://github.com/STJEREM/coop' },
-            'STJEREM/coop'
-          ),
-          '.'
-        )
+        h(Locations, { locations: locations, activeLocation: location && location.id, onSelectLocation: onSelectLocation })
+      ),
+      h(
+        'nav',
+        { 'class': 'weekdays' },
+        location && h(RestaurantWeekdays, { days: days, onSelectDay: onSelectDay })
+      ),
+      h(
+        'footer',
+        { 'class': 'footer' },
+        h(Footer, null)
       ),
       h(
         'main',
-        { 'class': 'content' },
-        location && h(Location, { location: location, menus: menus, days: days, onSelectDay: onSelectDay })
+        { 'class': 'menus' },
+        location && h(RestaurantMenus, { location: location, menus: menus })
       )
     )
   );
