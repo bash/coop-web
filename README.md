@@ -1,7 +1,6 @@
-# coop-web
+# coop-web (suspended)
 
-SPA for [STJEREM/coop](https://github.com/STJEREM/coop).
+SPA for [jeremystucki/coop](https://github.com/jeremystucki/coop).
 
-Live Preview: https://bash.github.io/coop-web/
 
 
